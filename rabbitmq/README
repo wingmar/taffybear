@@ -1,0 +1,27 @@
+This project is a proof of concept following a rabbitmq Java tutorial.
+    References:
+    https://www.rabbitmq.com/tutorials/tutorial-two-java.html
+    https://hub.docker.com/_/rabbitmq/
+
+All the following should be done on the same host.
+
+1. Run the rabbitmq docker container
+    docker run -d --hostname my-rabbit --name rabbit -p 5671:5671 -p 5672:5672 rabbitmq:3
+
+2. Build the rabbitmq project.
+    gradle assemble
+
+3. Run one or more consumers.
+    java -jar consumer/build/libs/consumer-1.0.0.jar
+
+    The consumer(s) should now be waiting for messages.
+
+4. Run a producer to queue up one or more tasks.
+    java -jar producer/build/libs/producer-1.0.0.jar <message1:sleepTimeSec1> <message2:sleepTimeSec2>
+
+    Eg.
+    java -jar producer/build/libs/producer-1.0.0.jar "1st message:5" "2nd message:3" "3rd message:4"
+
+    If you have 2 consumers running simultaneously with the above three messages, the first consumer should consume
+    the "1st message" and wait for 5 seconds. The second consumer should consume the "2nd message" and wait for 3
+    seconds. Then, the second consumer should get the "3rd message" and wait for 4 seconds.
