@@ -6,6 +6,6 @@ dependencies {
 
 jar {
     manifest {
-        attributes('Main-Class': 'com.smartbrief.rabbitmq.producer.ProducerRunner')
+        attributes('Main-Class': 'com.wingmar.taffybear.rabbitmq.producer.ProducerRunner')
     }
 }

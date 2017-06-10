@@ -1,6 +1,6 @@
-package com.smartbrief.rabbitmq.consumer;
+package com.wingmar.taffybear.rabbitmq.consumer;
 
-import com.smartbrief.rabbitmq.connector.Connector;
+import com.wingmar.taffybear.rabbitmq.connector.Connector;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

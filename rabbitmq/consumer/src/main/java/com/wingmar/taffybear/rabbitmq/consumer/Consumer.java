@@ -1,11 +1,11 @@
-package com.smartbrief.rabbitmq.consumer;
+package com.wingmar.taffybear.rabbitmq.consumer;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import com.smartbrief.rabbitmq.connector.ChannelName;
-import com.smartbrief.rabbitmq.connector.Connector;
+import com.wingmar.taffybear.rabbitmq.connector.ChannelName;
+import com.wingmar.taffybear.rabbitmq.connector.Connector;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

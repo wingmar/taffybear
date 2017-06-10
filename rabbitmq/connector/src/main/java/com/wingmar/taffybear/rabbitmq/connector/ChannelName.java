@@ -1,4 +1,4 @@
-package com.smartbrief.rabbitmq.connector;
+package com.wingmar.taffybear.rabbitmq.connector;
 
 public enum ChannelName {
     TASK_QUEUE

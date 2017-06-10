@@ -1,4 +1,4 @@
-package com.smartbrief.rabbitmq.connector;
+package com.wingmar.taffybear.rabbitmq.connector;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
