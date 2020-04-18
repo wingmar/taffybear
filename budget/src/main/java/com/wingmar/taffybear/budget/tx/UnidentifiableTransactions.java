@@ -35,7 +35,8 @@ public class UnidentifiableTransactions {
         return new UnidentifiableTransactions(unidentifiableTransactions);
     }
 
-    static UnidentifiableTransactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
+    static UnidentifiableTransactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws
+            IOException {
         return readTransactions(new InputStreamReader(inputStream), includeHeaders);
     }
 
@@ -43,7 +44,8 @@ public class UnidentifiableTransactions {
         return readTransactions(new FileReader(file), includeHeaders);
     }
 
-    private static UnidentifiableTransactions readTransactions(Reader reader, boolean includeHeaders) throws IOException {
+    private static UnidentifiableTransactions readTransactions(Reader reader, boolean includeHeaders) throws
+            IOException {
         if (includeHeaders) {
             try (final CSVParser parser = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(reader)) {
                 final List<CSVRecord> records = parser.getRecords();
@@ -63,7 +65,8 @@ public class UnidentifiableTransactions {
                         LocalDate.parse(record.get(Header.TRANSACTION_DATE.getName()),
                                 DateTimeFormatter.ofPattern("MM/dd/yyyy")),
                         BigDecimal.valueOf(Double.parseDouble(record.get(Header.AMOUNT.getName()))),
-                        record.get(Header.CATEGORY.getName()), TransactionType.fromName(record.get(Header.TYPE.getName()))))
+                        Category.named(record.get(Header.CATEGORY.getName())),
+                        TransactionType.fromName(record.get(Header.TYPE.getName()))))
                 .collect(Collectors.toList()));
     }
 
@@ -75,11 +78,8 @@ public class UnidentifiableTransactions {
             final BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(record.get(Header.AMOUNT.ordinal())));
             final String category = record.get(Header.CATEGORY.ordinal());
             final TransactionType type = TransactionType.fromName(record.get(Header.TYPE.ordinal()));
-            return UnidentifiableTransaction
-                    .createUsdTransaction(Merchant.named(merchant),
-                            transactionDate,
-                            amount,
-                            category, type);
+            return UnidentifiableTransaction.createUsdTransaction(Merchant.named(merchant), transactionDate, amount,
+                    Category.named(category), type);
         })
                 .collect(Collectors.toList());
         return of(list);
@@ -93,7 +93,7 @@ public class UnidentifiableTransactions {
                 try {
                     printer.printRecord(transaction.getDate(),
                             transaction.getMerchant().getName(),
-                            transaction.getCategory(),
+                            transaction.getCategory().getName(),
                             transaction.getType().getName(),
                             transaction.getAmount().getAmount());
                 } catch (IOException e) {

@@ -1,7 +1,10 @@
 package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.Preconditions;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -95,11 +98,10 @@ public class TestDataGenerator {
     }
 
     UnidentifiableTransaction randomUnidentifiableTransaction() {
-        return UnidentifiableTransaction.createUsdTransaction(
-                randomMerchant(),
-                randomTwentyFirstCenturyLocalDate(), randomFloatBigDecimal(500),
-                randomString("category"),
-                randomTransactionType());
+        return UnidentifiableTransaction.createTransaction(randomMerchant(), randomTwentyFirstCenturyLocalDate(),
+                Money.of(CurrencyUnit.USD,
+                randomFloatBigDecimal(500).setScale(2, RoundingMode.HALF_UP)), Category.named(randomString
+                        ("category")), randomTransactionType());
     }
 
     public Merchant randomMerchant() {

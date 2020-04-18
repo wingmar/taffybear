@@ -18,7 +18,7 @@ public class Transaction implements Identifiable {
     }
 
     @SuppressWarnings("unused") // MyBatis
-    public Transaction(UUID id, Merchant merchant, LocalDate date, BigDecimal amount, String category,
+    public Transaction(UUID id, Merchant merchant, LocalDate date, BigDecimal amount, Category category,
                        TransactionType transactionType) {
         this(id, UnidentifiableTransaction.createUsdTransaction(merchant, date, amount, category, transactionType));
     }
@@ -53,7 +53,7 @@ public class Transaction implements Identifiable {
         return unidentifiableTransaction.getMerchant();
     }
 
-    private String getCategory() {
+    private Category getCategory() {
         return unidentifiableTransaction.getCategory();
     }
 

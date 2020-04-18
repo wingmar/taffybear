@@ -15,11 +15,13 @@ public class UnidentifiableTransactionTest {
     @Test
     public void equals() {
         final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+                (Merchant.named
+                ("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
+                .named("cat"), TransactionType.SALE);
         final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+                LocalDate.of
+                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"),
+                TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(other));
     }
@@ -27,11 +29,12 @@ public class UnidentifiableTransactionTest {
     @Test
     public void equals_diffAmount() {
         final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)),
-                "cat", TransactionType.SALE);
+                (Merchant.named
+                ("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)), Category
+                        .named("cat"), TransactionType.SALE);
         final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+                LocalDate.of
+                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
@@ -39,10 +42,13 @@ public class UnidentifiableTransactionTest {
     @Test
     public void equals_diffDate() {
         final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+                (Merchant.named
+                ("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
+                .named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of
+                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"),
+                TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
@@ -50,100 +56,109 @@ public class UnidentifiableTransactionTest {
     @Test
     public void equals_diffDesc() {
         final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
+                        (34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void equals_diffCategory() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat2", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
+                        (34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat2"), TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void equals_diffType() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.RETURN);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
+                        (34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
+                , TransactionType.RETURN);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void hash() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
+                        (34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
+                , TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(other.hashCode()));
     }
 
     @Test
     public void hash_diffAmount() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
+                , TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffDate() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
+                , TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffDesc() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other " +
+                "test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
+                .named("cat"), TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffCategory() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat2", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named
+                        ("cat2"), TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffType() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)),
-                "cat", TransactionType.RETURN);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
+                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
+                        (34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
+                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
+                , TransactionType.RETURN);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void createUsdTransaction() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createUsdTransaction(Merchant.named("some description"), LocalDate.of(2020, 10, 26), BigDecimal.valueOf(54.3),
-                "cat", TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction
+                .createUsdTransaction(Merchant.named("some description"),
+                        LocalDate.of(2020, 10, 26), BigDecimal.valueOf(54.3),
+                        Category.named("cat"), TransactionType.SALE);
 
-        assertThat(unidentifiableTransaction, is(UnidentifiableTransaction.createTransaction(Merchant.named("some description"), LocalDate.of(2020, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(54.3)),
-                "cat", TransactionType.SALE)));
+        assertThat(unidentifiableTransaction, is(UnidentifiableTransaction.createTransaction(Merchant
+                        .named("some description"), LocalDate.of(2020, 10, 26),
+                Money.of(CurrencyUnit.USD, BigDecimal.valueOf(54.3)), Category.named("cat"), TransactionType.SALE)));
     }
 }

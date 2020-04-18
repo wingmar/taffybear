@@ -12,10 +12,10 @@ public class UnidentifiableTransaction {
     private final Money amount;
     private final LocalDate date;
     private final Merchant merchant;
-    private final String category;
+    private final Category category;
     private final TransactionType type;
 
-    private UnidentifiableTransaction(Merchant merchant, LocalDate date, Money amount, String category,
+    private UnidentifiableTransaction(Merchant merchant, LocalDate date, Money amount, Category category,
                                       TransactionType type) {
         this.amount = amount;
         this.date = date;
@@ -24,12 +24,13 @@ public class UnidentifiableTransaction {
         this.type = type;
     }
 
-    static UnidentifiableTransaction createTransaction(Merchant merchant, LocalDate date, Money amount, String category,
+    static UnidentifiableTransaction createTransaction(Merchant merchant, LocalDate date, Money amount, Category
+            category,
                                                        TransactionType transactionType) {
         return new UnidentifiableTransaction(merchant, date, amount, category, transactionType);
     }
 
-    static UnidentifiableTransaction createUsdTransaction(Merchant merchant, LocalDate date, BigDecimal amount, String category,
+    static UnidentifiableTransaction createUsdTransaction(Merchant merchant, LocalDate date, BigDecimal amount, Category category,
                                                           TransactionType transactionType) {
         return createTransaction(merchant, date, Money.of(CurrencyUnit.USD,
                 amount.setScale(2, RoundingMode.HALF_UP)), category, transactionType);
@@ -47,7 +48,7 @@ public class UnidentifiableTransaction {
         return merchant;
     }
 
-    String getCategory() {
+    Category getCategory() {
         return category;
     }
 

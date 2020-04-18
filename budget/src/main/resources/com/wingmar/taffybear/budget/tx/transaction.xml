@@ -9,7 +9,7 @@
             <arg column="merchant" javaType="Merchant"/>
             <arg column="transaction_date" javaType="LocalDate"/>
             <arg column="amount" javaType="BigDecimal"/>
-            <arg column="category" javaType="String"/>
+            <arg column="category" javaType="Category"/>
             <arg column="type" javaType="TransactionType"/>
         </constructor>
     </resultMap>
