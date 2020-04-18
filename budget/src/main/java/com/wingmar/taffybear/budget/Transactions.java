@@ -31,15 +31,15 @@ public class Transactions {
         this.transactions = transactions;
     }
 
-    public static Transactions of(Collection<Transaction> transactions) {
+    static Transactions of(Collection<Transaction> transactions) {
         return new Transactions(transactions);
     }
 
-    public static Transactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
+    static Transactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
         return readTransactions(new InputStreamReader(inputStream), includeHeaders);
     }
 
-    public static Transactions fromFile(File file, boolean includeHeaders) throws IOException {
+    static Transactions fromFile(File file, boolean includeHeaders) throws IOException {
         return readTransactions(new FileReader(file), includeHeaders);
     }
 
@@ -63,8 +63,7 @@ public class Transactions {
                         LocalDate.parse(record.get(Header.TRANSACTION_DATE.getName()),
                                 DateTimeFormatter.ofPattern("MM/dd/yyyy")),
                         BigDecimal.valueOf(Double.parseDouble(record.get(Header.AMOUNT.getName()))),
-                        record.get(Header.CATEGORY.getName()),
-                        TransactionType.fromName(record.get(Header.TYPE.getName()))))
+                        record.get(Header.CATEGORY.getName()), TransactionType.fromName(record.get(Header.TYPE.getName()))))
                 .collect(Collectors.toList()));
     }
 
@@ -80,8 +79,7 @@ public class Transactions {
                     .createUsdTransaction(merchant,
                             transactionDate,
                             amount,
-                            category,
-                            type);
+                            category, type);
         })
                 .collect(Collectors.toList());
         return of(list);
@@ -107,7 +105,7 @@ public class Transactions {
 
     }
 
-    public InputStream asInputStream() throws IOException {
+    InputStream asInputStream() throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (CSVPrinter printer = new CSVPrinter(new OutputStreamWriter(out), CSVFormat.EXCEL)) {
             transactions.forEach(transaction -> {
@@ -125,7 +123,7 @@ public class Transactions {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    public List<Transaction> asList() {
+    List<Transaction> asList() {
         return ImmutableList.copyOf(transactions);
     }
 

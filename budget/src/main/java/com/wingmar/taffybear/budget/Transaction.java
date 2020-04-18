@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -22,31 +23,34 @@ public class Transaction {
         this.type = type;
     }
 
-    public static Transaction createTransaction(String merchant, LocalDate date, Money amount, String category, TransactionType transactionType) {
+    static Transaction createTransaction(String merchant, LocalDate date, Money amount, String category,
+                                         TransactionType transactionType) {
         return new Transaction(merchant, date, amount, category, transactionType);
     }
 
-    public static Transaction createUsdTransaction(String merchant, LocalDate date, BigDecimal amount, String category, TransactionType transactionType) {
-        return createTransaction(merchant, date, Money.of(CurrencyUnit.USD, amount), category, transactionType);
+    static Transaction createUsdTransaction(String merchant, LocalDate date, BigDecimal amount, String category,
+                                            TransactionType transactionType) {
+        return createTransaction(merchant, date, Money.of(CurrencyUnit.USD,
+                amount.setScale(2, RoundingMode.HALF_UP)), category, transactionType);
     }
 
-    public Money getAmount() {
+    Money getAmount() {
         return amount;
     }
 
-    public LocalDate getDate() {
+    LocalDate getDate() {
         return date;
     }
 
-    public String getMerchant() {
+    String getMerchant() {
         return merchant;
     }
 
-    public String getCategory() {
+    String getCategory() {
         return category;
     }
 
-    public TransactionType getType() {
+    TransactionType getType() {
         return type;
     }
 
