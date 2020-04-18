@@ -1,5 +1,6 @@
 package com.wingmar.taffybear.budget;
 
+import com.wingmar.taffybear.budget.tx.TransactionDao;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

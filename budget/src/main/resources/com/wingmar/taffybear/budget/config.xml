@@ -8,14 +8,14 @@
         <typeAlias type="java.math.BigDecimal" alias="BigDecimal"/>
         <typeAlias type="org.joda.money.Money" alias="Money"/>
         <typeAlias type="java.time.LocalDate" alias="LocalDate"/>
-        <typeAlias type="com.wingmar.taffybear.budget.TransactionType" alias="TransactionType"/>
+        <typeAlias type="com.wingmar.taffybear.budget.tx.TransactionType" alias="TransactionType"/>
     </typeAliases>
     <typeHandlers>
-        <typeHandler javaType="uuid" jdbcType="CHAR" handler="com.wingmar.taffybear.budget.UUIDTypeHandler"/>
+        <typeHandler javaType="uuid" jdbcType="CHAR" handler="com.wingmar.taffybear.budget.mybatis.UUIDTypeHandler"/>
         <typeHandler javaType="money" jdbcType="DECIMAL"
-                     handler="com.wingmar.taffybear.budget.JodaUsdMoneyTypeHandler"/>
+                     handler="com.wingmar.taffybear.budget.mybatis.JodaUsdMoneyTypeHandler"/>
     </typeHandlers>
     <mappers>
-        <mapper resource="com/wingmar/taffybear/budget/transaction.xml"/>
+        <mapper resource="com/wingmar/taffybear/budget/tx/transaction.xml"/>
     </mappers>
 </configuration>

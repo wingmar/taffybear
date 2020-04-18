@@ -1,6 +1,7 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.MoreObjects;
+import com.wingmar.taffybear.budget.Identifiable;
 import org.joda.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;

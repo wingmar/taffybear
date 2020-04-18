@@ -1,4 +1,4 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.tx;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;

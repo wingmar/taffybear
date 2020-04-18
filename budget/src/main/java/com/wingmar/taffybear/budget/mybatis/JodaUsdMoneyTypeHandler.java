@@ -1,4 +1,4 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.mybatis;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;

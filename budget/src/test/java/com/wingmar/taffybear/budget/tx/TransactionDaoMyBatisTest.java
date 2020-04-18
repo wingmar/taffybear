@@ -1,5 +1,6 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.tx;
 
+import com.wingmar.taffybear.budget.BudgetApplicationContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

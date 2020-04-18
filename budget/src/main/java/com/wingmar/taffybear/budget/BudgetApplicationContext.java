@@ -1,6 +1,8 @@
 package com.wingmar.taffybear.budget;
 
 import com.mysql.jdbc.Driver;
+import com.wingmar.taffybear.budget.tx.TransactionDao;
+import com.wingmar.taffybear.budget.tx.TransactionDaoMyBatis;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

@@ -1,4 +1,4 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.tx;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.wingmar.taffybear.budget;
+package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
