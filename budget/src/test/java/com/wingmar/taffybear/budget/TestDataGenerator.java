@@ -87,8 +87,8 @@ class TestDataGenerator {
         return IdentifiableTransaction.create(UUID.randomUUID(), randomUsdTransaction());
     }
 
-    Transaction randomUsdTransaction() {
-        return Transaction.createUsdTransaction(
+    UnidentifiableTransaction randomUsdTransaction() {
+        return UnidentifiableTransaction.createUsdTransaction(
                 randomString("merchant"),
                 randomTwentyFirstCenturyLocalDate(), randomFloatBigDecimal(500),
                 randomString("category"),

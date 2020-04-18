@@ -8,14 +8,14 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Transaction {
+public class UnidentifiableTransaction {
     private final Money amount;
     private final LocalDate date;
     private final String merchant;
     private final String category;
     private final TransactionType type;
 
-    private Transaction(String merchant, LocalDate date, Money amount, String category, TransactionType type) {
+    private UnidentifiableTransaction(String merchant, LocalDate date, Money amount, String category, TransactionType type) {
         this.amount = amount;
         this.date = date;
         this.merchant = merchant;
@@ -23,13 +23,13 @@ public class Transaction {
         this.type = type;
     }
 
-    static Transaction createTransaction(String merchant, LocalDate date, Money amount, String category,
-                                         TransactionType transactionType) {
-        return new Transaction(merchant, date, amount, category, transactionType);
+    static UnidentifiableTransaction createTransaction(String merchant, LocalDate date, Money amount, String category,
+                                                       TransactionType transactionType) {
+        return new UnidentifiableTransaction(merchant, date, amount, category, transactionType);
     }
 
-    static Transaction createUsdTransaction(String merchant, LocalDate date, BigDecimal amount, String category,
-                                            TransactionType transactionType) {
+    static UnidentifiableTransaction createUsdTransaction(String merchant, LocalDate date, BigDecimal amount, String category,
+                                                          TransactionType transactionType) {
         return createTransaction(merchant, date, Money.of(CurrencyUnit.USD,
                 amount.setScale(2, RoundingMode.HALF_UP)), category, transactionType);
     }
@@ -56,11 +56,11 @@ public class Transaction {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Transaction)) {
+        if (obj == null || !(obj instanceof UnidentifiableTransaction)) {
             return false;
         }
 
-        final Transaction o = (Transaction) obj;
+        final UnidentifiableTransaction o = (UnidentifiableTransaction) obj;
         return Objects.equals(getAmount(), o.getAmount())
                 && Objects.equals(getDate(), o.getDate())
                 && Objects.equals(getMerchant(), o.getMerchant())

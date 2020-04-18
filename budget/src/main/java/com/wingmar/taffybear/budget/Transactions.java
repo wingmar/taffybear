@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 
 
 public class Transactions {
-    private final Collection<Transaction> transactions;
+    private final Collection<UnidentifiableTransaction> unidentifiableTransactions;
 
-    private Transactions(Collection<Transaction> transactions) {
-        this.transactions = transactions;
+    private Transactions(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
+        this.unidentifiableTransactions = unidentifiableTransactions;
     }
 
-    static Transactions of(Collection<Transaction> transactions) {
-        return new Transactions(transactions);
+    static Transactions of(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
+        return new Transactions(unidentifiableTransactions);
     }
 
     static Transactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
@@ -58,7 +58,7 @@ public class Transactions {
     }
 
     private static Transactions parseRecordsWithHeaders(List<CSVRecord> records) {
-        return of(records.stream().map(record -> Transaction
+        return of(records.stream().map(record -> UnidentifiableTransaction
                 .createUsdTransaction(record.get(Header.DESCRIPTION.getName()),
                         LocalDate.parse(record.get(Header.TRANSACTION_DATE.getName()),
                                 DateTimeFormatter.ofPattern("MM/dd/yyyy")),
@@ -68,14 +68,14 @@ public class Transactions {
     }
 
     private static Transactions parseRecordsWithoutHeaders(List<CSVRecord> records) {
-        final List<Transaction> list = records.stream().map(record -> {
+        final List<UnidentifiableTransaction> list = records.stream().map(record -> {
             final String merchant = record.get(Header.DESCRIPTION.ordinal());
             final LocalDate transactionDate = LocalDate.parse(record.get(Header.TRANSACTION_DATE.ordinal()),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             final BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(record.get(Header.AMOUNT.ordinal())));
             final String category = record.get(Header.CATEGORY.ordinal());
             final TransactionType type = TransactionType.fromName(record.get(Header.TYPE.ordinal()));
-            return Transaction
+            return UnidentifiableTransaction
                     .createUsdTransaction(merchant,
                             transactionDate,
                             amount,
@@ -86,29 +86,10 @@ public class Transactions {
 
     }
 
-    private enum Header {
-        TRANSACTION_DATE ("Transaction Date"),
-        DESCRIPTION ("Description"),
-        CATEGORY ("Category"),
-        TYPE ("Type"),
-        AMOUNT ("Amount");
-
-        private final String name;
-
-        Header(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-    }
-
     InputStream asInputStream() throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (CSVPrinter printer = new CSVPrinter(new OutputStreamWriter(out), CSVFormat.EXCEL)) {
-            transactions.forEach(transaction -> {
+            unidentifiableTransactions.forEach(transaction -> {
                 try {
                     printer.printRecord(transaction.getDate(),
                             transaction.getMerchant(),
@@ -123,8 +104,8 @@ public class Transactions {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    List<Transaction> asList() {
-        return ImmutableList.copyOf(transactions);
+    List<UnidentifiableTransaction> asList() {
+        return ImmutableList.copyOf(unidentifiableTransactions);
     }
 
     @Override
@@ -134,18 +115,37 @@ public class Transactions {
         }
 
         final Transactions o = (Transactions) obj;
-        return Objects.equals(transactions, o.transactions);
+        return Objects.equals(unidentifiableTransactions, o.unidentifiableTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactions);
+        return Objects.hash(unidentifiableTransactions);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .addValue(transactions)
+                .addValue(unidentifiableTransactions)
                 .toString();
+    }
+
+    private enum Header {
+        TRANSACTION_DATE("UnidentifiableTransaction Date"),
+        DESCRIPTION("Description"),
+        CATEGORY("Category"),
+        TYPE("Type"),
+        AMOUNT("Amount");
+
+        private final String name;
+
+        Header(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
     }
 }

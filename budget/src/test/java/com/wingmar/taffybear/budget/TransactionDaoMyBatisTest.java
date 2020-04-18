@@ -24,10 +24,10 @@ public class TransactionDaoMyBatisTest {
     @Test
     public void insert_populatesId() throws Exception {
         // given
-        final Transaction transaction = generator.randomUsdTransaction();
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUsdTransaction();
 
         // when
-        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(transaction);
+        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(unidentifiableTransaction);
 
         // then
         assertThat(identifiableTransaction.getId(), not(nullValue()));
@@ -36,8 +36,8 @@ public class TransactionDaoMyBatisTest {
     @Test
     public void find() throws Exception {
         // given
-        final Transaction transaction = generator.randomUsdTransaction();
-        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(transaction);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUsdTransaction();
+        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(unidentifiableTransaction);
 
         // when
         final IdentifiableTransaction actual = transactionDao.find(identifiableTransaction.getId());

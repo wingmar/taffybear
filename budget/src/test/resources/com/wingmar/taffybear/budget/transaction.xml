@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="transaction">
+<mapper namespace="unidentifiableTransaction">
     <resultMap id="map" type="com.wingmar.taffybear.budget.IdentifiableTransaction">
         <constructor>
             <idArg column="id" javaType="UUID"/>
@@ -19,12 +19,12 @@
     </select>
 
     <insert id="insert" parameterType="com.wingmar.taffybear.budget.IdentifiableTransaction">
-        insert into transaction (id, merchant, transaction_date, amount, category, type)
+        insert into unidentifiableTransaction (id, merchant, transaction_date, amount, category, type)
         values (#{id}, #{merchant}, #{date}, #{amount}, #{category}, #{type});
     </insert>
 
     <select id="find" resultMap="map">
-        SELECT * FROM transaction
+        SELECT * FROM unidentifiableTransaction
         where id = #{value}
     </select>
 </mapper>

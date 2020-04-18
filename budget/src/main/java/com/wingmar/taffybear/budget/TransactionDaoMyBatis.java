@@ -6,10 +6,10 @@ import java.util.UUID;
 public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements TransactionDao {
 
     @Override
-    public IdentifiableTransaction insert(Transaction transaction) {
-        final UUID id = getSqlSession().selectOne("transaction.newId");
-        final IdentifiableTransaction identifiableTransaction = IdentifiableTransaction.create(id, transaction);
-        getSqlSession().insert("transaction.insert", identifiableTransaction);
+    public IdentifiableTransaction insert(UnidentifiableTransaction unidentifiableTransaction) {
+        final UUID id = getSqlSession().selectOne("unidentifiableTransaction.newId");
+        final IdentifiableTransaction identifiableTransaction = IdentifiableTransaction.create(id, unidentifiableTransaction);
+        getSqlSession().insert("unidentifiableTransaction.insert", identifiableTransaction);
         return identifiableTransaction;
     }
 

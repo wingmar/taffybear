@@ -9,26 +9,26 @@ import java.util.UUID;
 
 public class IdentifiableTransaction implements Identifiable {
     private final UUID id;
-    private final Transaction transaction;
+    private final UnidentifiableTransaction unidentifiableTransaction;
 
-    private IdentifiableTransaction(UUID id, Transaction transaction) {
+    private IdentifiableTransaction(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
         this.id = id;
-        this.transaction = transaction;
+        this.unidentifiableTransaction = unidentifiableTransaction;
     }
 
     @SuppressWarnings("unused") // MyBatis
     public IdentifiableTransaction(UUID id, String merchant, LocalDate date, BigDecimal amount, String category,
                                    TransactionType transactionType) {
-        this(id, Transaction.createUsdTransaction(merchant, date, amount, category, transactionType));
+        this(id, UnidentifiableTransaction.createUsdTransaction(merchant, date, amount, category, transactionType));
     }
 
-    static IdentifiableTransaction create(UUID id, Transaction transaction) {
-        return new IdentifiableTransaction(id, transaction);
+    static IdentifiableTransaction create(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
+        return new IdentifiableTransaction(id, unidentifiableTransaction);
     }
 
     static IdentifiableTransaction create(IdentifiableTransaction identifiableTransaction) {
         return new IdentifiableTransaction(identifiableTransaction.getId(),
-                Transaction.createTransaction(identifiableTransaction.getMerchant(),
+                UnidentifiableTransaction.createTransaction(identifiableTransaction.getMerchant(),
                         identifiableTransaction.getDate(),
                         identifiableTransaction.getAmount(),
                         identifiableTransaction.getCategory(),
@@ -41,30 +41,30 @@ public class IdentifiableTransaction implements Identifiable {
     }
 
     private Money getAmount() {
-        return transaction.getAmount();
+        return unidentifiableTransaction.getAmount();
     }
 
     private LocalDate getDate() {
-        return transaction.getDate();
+        return unidentifiableTransaction.getDate();
     }
 
     private String getMerchant() {
-        return transaction.getMerchant();
+        return unidentifiableTransaction.getMerchant();
     }
 
     private String getCategory() {
-        return transaction.getCategory();
+        return unidentifiableTransaction.getCategory();
     }
 
     private TransactionType getType() {
-        return transaction.getType();
+        return unidentifiableTransaction.getType();
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .addValue(id)
-                .addValue(transaction)
+                .addValue(unidentifiableTransaction)
                 .toString();
     }
 
@@ -76,11 +76,11 @@ public class IdentifiableTransaction implements Identifiable {
 
         final IdentifiableTransaction o = (IdentifiableTransaction) obj;
         return Objects.equals(getId(), o.getId())
-                && Objects.equals(transaction, o.transaction);
+                && Objects.equals(unidentifiableTransaction, o.unidentifiableTransaction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), transaction);
+        return Objects.hash(getId(), unidentifiableTransaction);
     }
 }

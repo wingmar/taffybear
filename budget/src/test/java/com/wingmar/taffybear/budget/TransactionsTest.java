@@ -18,10 +18,10 @@ public class TransactionsTest {
 
     @Test
     public void equals() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(Transaction
+        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
-        final Transactions other = Transactions.of(Collections.singletonList(Transaction
+        final Transactions other = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
@@ -30,10 +30,10 @@ public class TransactionsTest {
 
     @Test
     public void hash() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(Transaction
+        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
-        final Transactions other = Transactions.of(Collections.singletonList(Transaction
+        final Transactions other = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
@@ -49,17 +49,17 @@ public class TransactionsTest {
         final Transactions transactions = Transactions.fromFile(file, true);
 
         // then
-        final Transaction t0 = Transaction.createUsdTransaction("FIRSTENERGY/EZPAYRECUR",
+        final UnidentifiableTransaction t0 = UnidentifiableTransaction.createUsdTransaction("FIRSTENERGY/EZPAYRECUR",
                 LocalDate.of(2020, 3, 30),
                 BigDecimal.valueOf(-66.28),
                 "Bills & Utilities",
                 TransactionType.SALE);
-        final Transaction t1 = Transaction.createUsdTransaction("CHEWY.COM",
+        final UnidentifiableTransaction t1 = UnidentifiableTransaction.createUsdTransaction("CHEWY.COM",
                 LocalDate.of(2020, 3, 30),
                 BigDecimal.valueOf(35.28),
                 "Shopping",
                 TransactionType.RETURN);
-        final Transaction t2 = Transaction.createUsdTransaction("VONEIFF OIL",
+        final UnidentifiableTransaction t2 = UnidentifiableTransaction.createUsdTransaction("VONEIFF OIL",
                 LocalDate.of(2020, 3, 23),
                 BigDecimal.valueOf(-344.85),
                 "Home",
@@ -76,17 +76,17 @@ public class TransactionsTest {
                 .getResource("transactions.csv").toURI())), true);
 
         // then
-        final Transaction t0 = Transaction.createUsdTransaction("FIRSTENERGY/EZPAYRECUR",
+        final UnidentifiableTransaction t0 = UnidentifiableTransaction.createUsdTransaction("FIRSTENERGY/EZPAYRECUR",
                 LocalDate.of(2020, 3, 30),
                 BigDecimal.valueOf(-66.28),
                 "Bills & Utilities",
                 TransactionType.SALE);
-        final Transaction t1 = Transaction.createUsdTransaction("CHEWY.COM",
+        final UnidentifiableTransaction t1 = UnidentifiableTransaction.createUsdTransaction("CHEWY.COM",
                 LocalDate.of(2020, 3, 30),
                 BigDecimal.valueOf(35.28),
                 "Shopping",
                 TransactionType.RETURN);
-        final Transaction t2 = Transaction.createUsdTransaction("VONEIFF OIL",
+        final UnidentifiableTransaction t2 = UnidentifiableTransaction.createUsdTransaction("VONEIFF OIL",
                 LocalDate.of(2020, 3, 23),
                 BigDecimal.valueOf(-344.85),
                 "Home",
@@ -97,7 +97,7 @@ public class TransactionsTest {
     @Test
     public void asInputStream() throws IOException {
         // given
-        final Transactions transactions = Transactions.of(Collections.singletonList(Transaction
+        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
@@ -111,7 +111,7 @@ public class TransactionsTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void asList_immutable() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(Transaction
+        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
