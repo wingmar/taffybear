@@ -13,6 +13,6 @@ public class DaoBasedTransactionService implements TransactionService {
 
     @Override
     public Transactions find(Range<LocalDate> window) {
-        return Transactions.of(transactionDao.find(window));
+        return Transactions.ofIterable(transactionDao.find(window));
     }
 }

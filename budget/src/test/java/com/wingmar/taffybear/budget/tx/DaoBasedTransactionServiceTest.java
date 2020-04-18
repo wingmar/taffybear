@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DaoBasedTransactionServiceTest {
@@ -37,6 +38,16 @@ public class DaoBasedTransactionServiceTest {
 
         final Transactions transactions = transactionService.find(window);
 
-        assertThat(transactions, is(Transactions.of(transactionsList)));
+        assertThat(transactions, is(Transactions.ofIterable(transactionsList)));
+    }
+
+    @Test
+    public void find_empty() {
+        final Range<LocalDate> window = Range.greaterThan(LocalDate.now());
+        Mockito.when(transactionDao.find(window)).thenReturn(Collections.emptyList());
+
+        final Transactions transactions = transactionService.find(window);
+
+        assertTrue(transactions.isEmpty());
     }
 }
