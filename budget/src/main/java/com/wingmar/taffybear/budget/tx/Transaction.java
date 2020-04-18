@@ -45,7 +45,7 @@ public class Transaction implements Identifiable {
         return unidentifiableTransaction.getAmount();
     }
 
-    private LocalDate getDate() {
+    public LocalDate getDate() {
         return unidentifiableTransaction.getDate();
     }
 

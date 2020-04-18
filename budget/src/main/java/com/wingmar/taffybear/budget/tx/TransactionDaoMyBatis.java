@@ -1,6 +1,11 @@
 package com.wingmar.taffybear.budget.tx;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Range;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements TransactionDao {
@@ -14,7 +19,13 @@ public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements Trans
     }
 
     @Override
-    public Transaction find(UUID id) {
-        return getSqlSession().selectOne("transaction.find", id);
+    public Optional<Transaction> find(UUID id) {
+        return Optional.ofNullable(getSqlSession().selectOne("transaction.find", id));
+    }
+
+    @Override
+    public List<Transaction> find(Range<LocalDate> dateRange) {
+        return getSqlSession().selectList("transaction.findByDateRange", ImmutableMap
+                .of("lowerBound", dateRange.lowerEndpoint(), "upperBound", dateRange.upperEndpoint()));
     }
 }

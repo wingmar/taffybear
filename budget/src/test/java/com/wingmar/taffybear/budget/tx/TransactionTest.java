@@ -11,7 +11,7 @@ public class TransactionTest {
 
     @Test
     public void equals() {
-        final Transaction transaction = dataGenerator.randomIdentifiableTransaction();
+        final Transaction transaction = dataGenerator.randomTransaction();
         final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction, is(other));
@@ -19,7 +19,7 @@ public class TransactionTest {
 
     @Test
     public void hash() {
-        final Transaction transaction = dataGenerator.randomIdentifiableTransaction();
+        final Transaction transaction = dataGenerator.randomTransaction();
         final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction.hashCode(), is(other.hashCode()));

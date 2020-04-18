@@ -19,12 +19,17 @@
     </select>
 
     <insert id="insert" parameterType="com.wingmar.taffybear.budget.tx.Transaction">
-        insert into transaction (id, merchant, transaction_date, amount, category, type)
-        values (#{id}, #{merchant}, #{date}, #{amount}, #{category}, #{type});
+        INSERT INTO transaction (id, merchant, transaction_date, amount, category, type)
+        VALUES (#{id}, #{merchant}, #{date}, #{amount}, #{category}, #{type});
     </insert>
 
     <select id="find" resultMap="map">
         SELECT * FROM transaction
-        where id = #{value}
+        WHERE id = #{value}
+    </select>
+
+    <select id="findByDateRange" resultMap="map">
+        SELECT * FROM transaction
+        WHERE transaction_date BETWEEN #{lowerBound} AND #{upperBound}
     </select>
 </mapper>

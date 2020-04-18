@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class TestDataGenerator {
 
@@ -83,11 +85,15 @@ class TestDataGenerator {
         return randomElementOf(TransactionType.values()).orElseThrow(IllegalStateException::new);
     }
 
-    Transaction randomIdentifiableTransaction() {
-        return Transaction.create(UUID.randomUUID(), randomUsdTransaction());
+    Transaction randomTransaction() {
+        return Transaction.create(UUID.randomUUID(), randomUnidentifiableTransaction());
     }
 
-    UnidentifiableTransaction randomUsdTransaction() {
+    List<UnidentifiableTransaction> randomUnidentifiableTransactionList(int size) {
+        return IntStream.range(0, size).mapToObj(i -> randomUnidentifiableTransaction()).collect(Collectors.toList());
+    }
+
+    UnidentifiableTransaction randomUnidentifiableTransaction() {
         return UnidentifiableTransaction.createUsdTransaction(
                 randomString("merchant"),
                 randomTwentyFirstCenturyLocalDate(), randomFloatBigDecimal(500),
