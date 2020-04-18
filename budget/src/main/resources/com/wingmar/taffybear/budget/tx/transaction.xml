@@ -6,7 +6,7 @@
     <resultMap id="map" type="com.wingmar.taffybear.budget.tx.Transaction">
         <constructor>
             <idArg column="id" javaType="UUID"/>
-            <arg column="merchant" javaType="String"/>
+            <arg column="merchant" javaType="Merchant"/>
             <arg column="transaction_date" javaType="LocalDate"/>
             <arg column="amount" javaType="BigDecimal"/>
             <arg column="category" javaType="String"/>

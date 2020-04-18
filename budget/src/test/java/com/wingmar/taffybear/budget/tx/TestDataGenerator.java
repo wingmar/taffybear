@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-class TestDataGenerator {
+public class TestDataGenerator {
 
     private final Random random;
 
@@ -28,7 +28,7 @@ class TestDataGenerator {
         this(new Random());
     }
 
-    static TestDataGenerator newInstance() {
+    public static TestDataGenerator newInstance() {
         return new TestDataGenerator();
     }
 
@@ -95,9 +95,13 @@ class TestDataGenerator {
 
     UnidentifiableTransaction randomUnidentifiableTransaction() {
         return UnidentifiableTransaction.createUsdTransaction(
-                randomString("merchant"),
+                randomMerchant(),
                 randomTwentyFirstCenturyLocalDate(), randomFloatBigDecimal(500),
                 randomString("category"),
                 randomTransactionType());
+    }
+
+    public Merchant randomMerchant() {
+        return Merchant.named(randomString("merchant"));
     }
 }

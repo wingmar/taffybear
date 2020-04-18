@@ -59,7 +59,7 @@ public class UnidentifiableTransactions {
 
     private static UnidentifiableTransactions parseRecordsWithHeaders(List<CSVRecord> records) {
         return of(records.stream().map(record -> UnidentifiableTransaction
-                .createUsdTransaction(record.get(Header.DESCRIPTION.getName()),
+                .createUsdTransaction(Merchant.named(record.get(Header.DESCRIPTION.getName())),
                         LocalDate.parse(record.get(Header.TRANSACTION_DATE.getName()),
                                 DateTimeFormatter.ofPattern("MM/dd/yyyy")),
                         BigDecimal.valueOf(Double.parseDouble(record.get(Header.AMOUNT.getName()))),
@@ -76,7 +76,7 @@ public class UnidentifiableTransactions {
             final String category = record.get(Header.CATEGORY.ordinal());
             final TransactionType type = TransactionType.fromName(record.get(Header.TYPE.ordinal()));
             return UnidentifiableTransaction
-                    .createUsdTransaction(merchant,
+                    .createUsdTransaction(Merchant.named(merchant),
                             transactionDate,
                             amount,
                             category, type);
@@ -92,7 +92,7 @@ public class UnidentifiableTransactions {
             unidentifiableTransactions.forEach(transaction -> {
                 try {
                     printer.printRecord(transaction.getDate(),
-                            transaction.getMerchant(),
+                            transaction.getMerchant().getName(),
                             transaction.getCategory(),
                             transaction.getType().getName(),
                             transaction.getAmount().getAmount());

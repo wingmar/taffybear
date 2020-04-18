@@ -4,6 +4,7 @@
 
 <configuration>
     <typeAliases>
+        <typeAlias type="com.wingmar.taffybear.budget.tx.Merchant" alias="Merchant"/>
         <typeAlias type="java.util.UUID" alias="UUID"/>
         <typeAlias type="java.math.BigDecimal" alias="BigDecimal"/>
         <typeAlias type="org.joda.money.Money" alias="Money"/>
@@ -11,6 +12,8 @@
         <typeAlias type="com.wingmar.taffybear.budget.tx.TransactionType" alias="TransactionType"/>
     </typeAliases>
     <typeHandlers>
+        <typeHandler javaType="Merchant" jdbcType="VARCHAR"
+                     handler="com.wingmar.taffybear.budget.mybatis.MerchantTypeHandler"/>
         <typeHandler javaType="uuid" jdbcType="CHAR" handler="com.wingmar.taffybear.budget.mybatis.UUIDTypeHandler"/>
         <typeHandler javaType="money" jdbcType="DECIMAL"
                      handler="com.wingmar.taffybear.budget.mybatis.JodaUsdMoneyTypeHandler"/>
