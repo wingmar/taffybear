@@ -27,22 +27,22 @@ public class TransactionDaoMyBatisTest {
         final UnidentifiableTransaction unidentifiableTransaction = generator.randomUsdTransaction();
 
         // when
-        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(unidentifiableTransaction);
+        final Transaction transaction = transactionDao.insert(unidentifiableTransaction);
 
         // then
-        assertThat(identifiableTransaction.getId(), not(nullValue()));
+        assertThat(transaction.getId(), not(nullValue()));
     }
 
     @Test
     public void find() throws Exception {
         // given
         final UnidentifiableTransaction unidentifiableTransaction = generator.randomUsdTransaction();
-        final IdentifiableTransaction identifiableTransaction = transactionDao.insert(unidentifiableTransaction);
+        final Transaction transaction = transactionDao.insert(unidentifiableTransaction);
 
         // when
-        final IdentifiableTransaction actual = transactionDao.find(identifiableTransaction.getId());
+        final Transaction actual = transactionDao.find(transaction.getId());
 
         // then
-        assertThat(actual, is(identifiableTransaction));
+        assertThat(actual, is(transaction));
     }
 }

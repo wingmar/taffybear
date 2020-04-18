@@ -7,32 +7,32 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class IdentifiableTransaction implements Identifiable {
+public class Transaction implements Identifiable {
     private final UUID id;
     private final UnidentifiableTransaction unidentifiableTransaction;
 
-    private IdentifiableTransaction(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
+    private Transaction(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
         this.id = id;
         this.unidentifiableTransaction = unidentifiableTransaction;
     }
 
     @SuppressWarnings("unused") // MyBatis
-    public IdentifiableTransaction(UUID id, String merchant, LocalDate date, BigDecimal amount, String category,
-                                   TransactionType transactionType) {
+    public Transaction(UUID id, String merchant, LocalDate date, BigDecimal amount, String category,
+                       TransactionType transactionType) {
         this(id, UnidentifiableTransaction.createUsdTransaction(merchant, date, amount, category, transactionType));
     }
 
-    static IdentifiableTransaction create(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
-        return new IdentifiableTransaction(id, unidentifiableTransaction);
+    static Transaction create(UUID id, UnidentifiableTransaction unidentifiableTransaction) {
+        return new Transaction(id, unidentifiableTransaction);
     }
 
-    static IdentifiableTransaction create(IdentifiableTransaction identifiableTransaction) {
-        return new IdentifiableTransaction(identifiableTransaction.getId(),
-                UnidentifiableTransaction.createTransaction(identifiableTransaction.getMerchant(),
-                        identifiableTransaction.getDate(),
-                        identifiableTransaction.getAmount(),
-                        identifiableTransaction.getCategory(),
-                        identifiableTransaction.getType()));
+    static Transaction create(Transaction transaction) {
+        return new Transaction(transaction.getId(),
+                UnidentifiableTransaction.createTransaction(transaction.getMerchant(),
+                        transaction.getDate(),
+                        transaction.getAmount(),
+                        transaction.getCategory(),
+                        transaction.getType()));
     }
 
     @Override
@@ -70,11 +70,11 @@ public class IdentifiableTransaction implements Identifiable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof IdentifiableTransaction)) {
+        if (obj == null || !(obj instanceof Transaction)) {
             return false;
         }
 
-        final IdentifiableTransaction o = (IdentifiableTransaction) obj;
+        final Transaction o = (Transaction) obj;
         return Objects.equals(getId(), o.getId())
                 && Objects.equals(unidentifiableTransaction, o.unidentifiableTransaction);
     }

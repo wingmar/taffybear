@@ -5,22 +5,22 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class IdentifiableTransactionTest {
+public class TransactionTest {
 
     private final TestDataGenerator dataGenerator = TestDataGenerator.newInstance();
 
     @Test
     public void equals() {
-        final IdentifiableTransaction transaction = dataGenerator.randomIdentifiableTransaction();
-        final IdentifiableTransaction other = IdentifiableTransaction.create(transaction);
+        final Transaction transaction = dataGenerator.randomIdentifiableTransaction();
+        final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction, is(other));
     }
 
     @Test
     public void hash() {
-        final IdentifiableTransaction transaction = dataGenerator.randomIdentifiableTransaction();
-        final IdentifiableTransaction other = IdentifiableTransaction.create(transaction);
+        final Transaction transaction = dataGenerator.randomIdentifiableTransaction();
+        final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction.hashCode(), is(other.hashCode()));
     }

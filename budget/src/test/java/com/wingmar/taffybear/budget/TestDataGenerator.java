@@ -83,8 +83,8 @@ class TestDataGenerator {
         return randomElementOf(TransactionType.values()).orElseThrow(IllegalStateException::new);
     }
 
-    IdentifiableTransaction randomIdentifiableTransaction() {
-        return IdentifiableTransaction.create(UUID.randomUUID(), randomUsdTransaction());
+    Transaction randomIdentifiableTransaction() {
+        return Transaction.create(UUID.randomUUID(), randomUsdTransaction());
     }
 
     UnidentifiableTransaction randomUsdTransaction() {

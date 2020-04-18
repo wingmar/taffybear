@@ -16,6 +16,6 @@
                      handler="com.wingmar.taffybear.budget.JodaUsdMoneyTypeHandler"/>
     </typeHandlers>
     <mappers>
-        <mapper resource="com/wingmar/taffybear/budget/unidentifiableTransaction.xml"/>
+        <mapper resource="com/wingmar/taffybear/budget/transaction.xml"/>
     </mappers>
 </configuration>

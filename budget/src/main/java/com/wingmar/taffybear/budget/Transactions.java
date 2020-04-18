@@ -131,7 +131,7 @@ public class Transactions {
     }
 
     private enum Header {
-        TRANSACTION_DATE("UnidentifiableTransaction Date"),
+        TRANSACTION_DATE("Transaction Date"),
         DESCRIPTION("Description"),
         CATEGORY("Category"),
         TYPE("Type"),
