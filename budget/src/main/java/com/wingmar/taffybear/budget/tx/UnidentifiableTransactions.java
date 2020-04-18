@@ -115,7 +115,7 @@ public class UnidentifiableTransactions {
         }
 
         final UnidentifiableTransactions o = (UnidentifiableTransactions) obj;
-        return Objects.equals(unidentifiableTransactions, o.unidentifiableTransactions);
+        return EqualsHelper.elementPairsAreEqual(unidentifiableTransactions, o.unidentifiableTransactions);
     }
 
     @Override

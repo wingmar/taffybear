@@ -76,8 +76,8 @@ public class Transaction implements Identifiable {
         }
 
         final Transaction o = (Transaction) obj;
-        return Objects.equals(getId(), o.getId())
-                && Objects.equals(unidentifiableTransaction, o.unidentifiableTransaction);
+        return EqualsHelper.elementPairsAreEqual(getId(), o.getId(),
+                unidentifiableTransaction, o.unidentifiableTransaction);
     }
 
     @Override

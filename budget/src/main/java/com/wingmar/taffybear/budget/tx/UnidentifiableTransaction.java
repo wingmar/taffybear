@@ -69,11 +69,8 @@ public class UnidentifiableTransaction {
         }
 
         final UnidentifiableTransaction o = (UnidentifiableTransaction) obj;
-        return Objects.equals(getAmount(), o.getAmount())
-                && Objects.equals(getDate(), o.getDate())
-                && Objects.equals(getMerchant(), o.getMerchant())
-                && Objects.equals(getCategory(), o.getCategory())
-                && Objects.equals(getType(), o.getType());
+        return EqualsHelper.elementPairsAreEqual(getMerchant(), o.getMerchant(), getDate(), o.getDate(),
+                getAmount(), o.getAmount(), getCategory(), o.getCategory(), getType(), o.getType());
     }
 
     @Override

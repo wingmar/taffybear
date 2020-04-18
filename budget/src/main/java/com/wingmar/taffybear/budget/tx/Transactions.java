@@ -66,7 +66,7 @@ public class Transactions {
         }
 
         final Transactions o = (Transactions) obj;
-        return Objects.equals(transactions, o.transactions);
+        return EqualsHelper.elementPairsAreEqual(transactions, o.transactions);
     }
 
     @Override
