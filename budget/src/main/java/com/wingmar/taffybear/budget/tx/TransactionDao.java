@@ -1,6 +1,5 @@
 package com.wingmar.taffybear.budget.tx;
 
-import com.google.common.collect.Range;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -11,5 +10,12 @@ public interface TransactionDao {
 
     Optional<Transaction> find(UUID id);
 
-    List<Transaction> find(Range<LocalDate> dateRange);
+    /**
+     * Finds the transactions in the time window between lower and upper (inclusive)
+     *
+     * @param lower
+     * @param upper
+     * @return
+     */
+    List<Transaction> find(LocalDate lower, LocalDate upper);
 }

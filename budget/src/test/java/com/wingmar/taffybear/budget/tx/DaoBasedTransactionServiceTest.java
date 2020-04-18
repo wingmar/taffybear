@@ -1,6 +1,5 @@
 package com.wingmar.taffybear.budget.tx;
 
-import com.google.common.collect.Range;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,21 +31,19 @@ public class DaoBasedTransactionServiceTest {
 
     @Test
     public void find() {
-        final Range<LocalDate> window = Range.greaterThan(LocalDate.now());
         final List<Transaction> transactionsList = Collections.singletonList(generator.randomTransaction());
-        Mockito.when(transactionDao.find(window)).thenReturn(transactionsList);
+        Mockito.when(transactionDao.find(Mockito.any(), Mockito.any())).thenReturn(transactionsList);
 
-        final Transactions transactions = transactionService.find(window);
+        final Transactions transactions = transactionService.find(LocalDate.now(), LocalDate.now());
 
         assertThat(transactions, is(Transactions.ofIterable(transactionsList)));
     }
 
     @Test
     public void find_empty() {
-        final Range<LocalDate> window = Range.greaterThan(LocalDate.now());
-        Mockito.when(transactionDao.find(window)).thenReturn(Collections.emptyList());
+        Mockito.when(transactionDao.find(Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
 
-        final Transactions transactions = transactionService.find(window);
+        final Transactions transactions = transactionService.find(LocalDate.now(), LocalDate.now());
 
         assertTrue(transactions.isEmpty());
     }

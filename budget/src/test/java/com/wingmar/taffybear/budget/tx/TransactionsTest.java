@@ -1,8 +1,14 @@
 package com.wingmar.taffybear.budget.tx;
 
+import com.google.common.collect.Range;
 import org.junit.Test;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -79,5 +85,51 @@ public class TransactionsTest {
         final Transactions transactions = Transactions.empty();
 
         assertTrue(transactions.isEmpty());
+    }
+
+    @Test
+    public void getDateRange() {
+        final List<Transaction> iterable = IntStream.range(0, 100)
+                .mapToObj(i -> generator.randomTransaction())
+                .collect(Collectors.toList());
+
+        final Transactions transactions = Transactions.ofIterable(iterable);
+
+        final LocalDate min = iterable.stream().map(Transaction::getDate).sorted().collect(Collectors.toList()).get(0);
+        final LocalDate max = iterable.stream().map(Transaction::getDate).sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList()).get(0);
+        assertThat(transactions.getDateRange(), is(Range.closed(min, max)));
+    }
+
+    @Test
+    public void getDateRange_containsAllDates() {
+        // given
+        final List<Transaction> iterable = IntStream.range(0, 100)
+                .mapToObj(i -> generator.randomTransaction())
+                .collect(Collectors.toList());
+        final Transactions transactions = Transactions.ofIterable(iterable);
+
+        // when
+        final Range<LocalDate> dateRange = transactions.getDateRange();
+
+        // then
+        final List<LocalDate> dates = iterable.stream().map(Transaction::getDate).sorted().collect(Collectors.toList());
+        assertTrue(dateRange.containsAll(dates));
+    }
+
+    @Test
+    public void getDateRange_single() {
+        final Transaction transaction = generator.randomTransaction();
+
+        final Transactions transactions = Transactions.of(transaction);
+
+        assertThat(transactions.getDateRange(), is(Range.singleton(transaction.getDate())));
+    }
+
+    @Test
+    public void getDateRange_empty() {
+        final Transactions empty = Transactions.empty();
+
+        assertTrue(empty.getDateRange().isEmpty());
     }
 }

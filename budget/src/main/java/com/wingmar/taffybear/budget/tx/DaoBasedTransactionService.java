@@ -1,6 +1,5 @@
 package com.wingmar.taffybear.budget.tx;
 
-import com.google.common.collect.Range;
 import java.time.LocalDate;
 
 public class DaoBasedTransactionService implements TransactionService {
@@ -12,7 +11,7 @@ public class DaoBasedTransactionService implements TransactionService {
     }
 
     @Override
-    public Transactions find(Range<LocalDate> window) {
-        return Transactions.ofIterable(transactionDao.find(window));
+    public Transactions find(LocalDate lower, LocalDate upper) {
+        return Transactions.ofIterable(transactionDao.find(lower, upper));
     }
 }

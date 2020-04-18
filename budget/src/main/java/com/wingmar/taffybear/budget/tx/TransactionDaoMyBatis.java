@@ -1,7 +1,6 @@
 package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Range;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,8 +23,8 @@ public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements Trans
     }
 
     @Override
-    public List<Transaction> find(Range<LocalDate> dateRange) {
+    public List<Transaction> find(LocalDate lower, LocalDate upper) {
         return getSqlSession().selectList("transaction.findByDateRange", ImmutableMap
-                .of("lowerBound", dateRange.lowerEndpoint(), "upperBound", dateRange.upperEndpoint()));
+                .of("lowerBound", lower, "upperBound", upper));
     }
 }

@@ -2,10 +2,14 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Range;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Transactions {
 
@@ -31,12 +35,21 @@ public class Transactions {
         return new Transactions(transactions);
     }
 
-    public static Transactions empty() {
+    static Transactions empty() {
         return new Transactions();
     }
 
     boolean isEmpty() {
         return transactions.isEmpty();
+    }
+
+    Range<LocalDate> getDateRange() {
+        if (isEmpty()) {
+            return Range.openClosed(LocalDate.MIN, LocalDate.MIN);
+        }
+
+        final List<LocalDate> dates = transactions.stream().map(Transaction::getDate).collect(Collectors.toList());
+        return Range.closed(Collections.min(dates), Collections.max(dates));
     }
 
     @Override

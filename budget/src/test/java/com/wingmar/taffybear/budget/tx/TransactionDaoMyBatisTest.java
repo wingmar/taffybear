@@ -1,6 +1,5 @@
 package com.wingmar.taffybear.budget.tx;
 
-import com.google.common.collect.Range;
 import com.wingmar.taffybear.budget.BudgetApplicationContext;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -77,7 +76,7 @@ public class TransactionDaoMyBatisTest {
         final LocalDate upperBound = Collections.max(dates);
 
         // when
-        final List<Transaction> actual = transactionDao.find(Range.openClosed(lowerBound, upperBound));
+        final List<Transaction> actual = transactionDao.find(lowerBound, upperBound);
 
         // then
         assertThat(actual, Matchers.containsInAnyOrder(transactions.toArray(new Transaction[transactions.size()])));
