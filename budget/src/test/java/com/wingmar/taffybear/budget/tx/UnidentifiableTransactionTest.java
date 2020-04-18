@@ -12,140 +12,148 @@ import static org.junit.Assert.assertThat;
 
 public class UnidentifiableTransactionTest {
 
+    private final TestDataGenerator generator = TestDataGenerator.newInstance();
+
     @Test
     public void equals() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named
-                ("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
-                .named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of
-                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"),
-                TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.copy(unidentifiableTransaction);
 
         assertThat(unidentifiableTransaction, is(other));
     }
 
     @Test
     public void equals_diffAmount() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named
-                ("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)), Category
-                        .named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of
-                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate(),
+                unidentifiableTransaction.getAmount().plus(1), unidentifiableTransaction.getCategory(),
+                unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void equals_diffDate() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named
-                ("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
-                .named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of
-                (2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"),
-                TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate().plusDays(1),
+                unidentifiableTransaction.getAmount(), unidentifiableTransaction.getCategory(),
+                unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
-    public void equals_diffDesc() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
-                        (34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
+    public void equals_diffMerchant() {
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                Merchant.named(unidentifiableTransaction.getMerchant().getName() + "other"),
+                unidentifiableTransaction.getDate(), unidentifiableTransaction.getAmount(),
+                unidentifiableTransaction.getCategory(), unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void equals_diffCategory() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
-                        (34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat2"), TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate(),
+                unidentifiableTransaction.getAmount(),
+                Category.named(unidentifiableTransaction.getCategory().getName() + "other"),
+                unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void equals_diffType() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
-                        (34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
-                , TransactionType.RETURN);
+        final Merchant merchant = generator.randomMerchant();
+        final LocalDate date = generator.randomTwentyFirstCenturyLocalDate();
+        final Money amount = generator.randomMoney();
+        final Category category = generator.randomCategory();
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction
+                .createTransaction(merchant, date, amount, category, TransactionType.PAYMENT);
+        final UnidentifiableTransaction other = UnidentifiableTransaction
+                .createTransaction(merchant, date, amount, category, TransactionType.SALE);
 
         assertThat(unidentifiableTransaction, is(not(other)));
     }
 
     @Test
     public void hash() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
-                        (34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
-                , TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.copy(unidentifiableTransaction);
 
         assertThat(unidentifiableTransaction.hashCode(), is(other.hashCode()));
     }
 
     @Test
     public void hash_diffAmount() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(-34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
-                , TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate(),
+                unidentifiableTransaction.getAmount().plus(1), unidentifiableTransaction.getCategory(),
+                unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffDate() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 27), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
-                , TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate().plusDays(1),
+                unidentifiableTransaction.getAmount(), unidentifiableTransaction.getCategory(),
+                unidentifiableTransaction.getType()
+        );
+
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
-    public void hash_diffDesc() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("other " +
-                "test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category
-                .named("cat"), TransactionType.SALE);
+    public void hash_diffMerchant() {
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                Merchant.named(unidentifiableTransaction.getMerchant().getName() + "other"),
+                unidentifiableTransaction.getDate(), unidentifiableTransaction.getAmount(),
+                unidentifiableTransaction.getCategory(), unidentifiableTransaction.getType()
+        );
+
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffCategory() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction(Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named
-                        ("cat2"), TransactionType.SALE);
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(
+                unidentifiableTransaction.getMerchant(), unidentifiableTransaction.getDate(),
+                unidentifiableTransaction.getAmount(),
+                Category.named(unidentifiableTransaction.getCategory().getName() + "other"),
+                unidentifiableTransaction.getType()
+        );
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
 
     @Test
     public void hash_diffType() {
-        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction.createTransaction
-                (Merchant.named("test"), LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf
-                        (34)), Category.named("cat"), TransactionType.SALE);
-        final UnidentifiableTransaction other = UnidentifiableTransaction.createTransaction(Merchant.named("test"),
-                LocalDate.of(2019, 10, 26), Money.of(CurrencyUnit.USD, BigDecimal.valueOf(34)), Category.named("cat")
-                , TransactionType.RETURN);
+        final Merchant merchant = generator.randomMerchant();
+        final LocalDate date = generator.randomTwentyFirstCenturyLocalDate();
+        final Money amount = generator.randomMoney();
+        final Category category = generator.randomCategory();
+        final UnidentifiableTransaction unidentifiableTransaction = UnidentifiableTransaction
+                .createTransaction(merchant, date, amount, category, TransactionType.PAYMENT);
+        final UnidentifiableTransaction other = UnidentifiableTransaction
+                .createTransaction(merchant, date, amount, category, TransactionType.SALE);
 
         assertThat(unidentifiableTransaction.hashCode(), is(not(other.hashCode())));
     }
@@ -160,5 +168,12 @@ public class UnidentifiableTransactionTest {
         assertThat(unidentifiableTransaction, is(UnidentifiableTransaction.createTransaction(Merchant
                         .named("some description"), LocalDate.of(2020, 10, 26),
                 Money.of(CurrencyUnit.USD, BigDecimal.valueOf(54.3)), Category.named("cat"), TransactionType.SALE)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void createTransaction_nonUsd_illegalArgument() {
+        UnidentifiableTransaction.createTransaction(generator.randomMerchant(),
+                generator.randomTwentyFirstCenturyLocalDate(), Money.of(CurrencyUnit.EUR, 5),
+                generator.randomCategory(), generator.randomTransactionType());
     }
 }

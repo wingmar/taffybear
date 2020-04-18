@@ -60,6 +60,10 @@ public class TestDataGenerator {
         return BigDecimal.valueOf(randomFloat(max));
     }
 
+    public Money randomMoney() {
+        return Money.of(CurrencyUnit.USD, randomFloatBigDecimal(Float.MAX_VALUE));
+    }
+
     String randomString(String prefix) {
         return prefix + randomInt();
     }
@@ -85,7 +89,7 @@ public class TestDataGenerator {
         return Optional.ofNullable(collection.get(0));
     }
 
-    private TransactionType randomTransactionType() {
+    TransactionType randomTransactionType() {
         return randomElementOf(TransactionType.values()).orElseThrow(IllegalStateException::new);
     }
 
