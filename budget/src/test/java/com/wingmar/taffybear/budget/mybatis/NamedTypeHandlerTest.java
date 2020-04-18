@@ -1,7 +1,6 @@
 package com.wingmar.taffybear.budget.mybatis;
 
-import com.wingmar.taffybear.budget.tx.Merchant;
-import com.wingmar.taffybear.budget.tx.TestDataGenerator;
+import com.wingmar.taffybear.budget.tx.Named;
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -13,22 +12,26 @@ import java.sql.SQLException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class MerchantTypeHandlerTest {
+public class NamedTypeHandlerTest {
 
-    private final TestDataGenerator generator = TestDataGenerator.newInstance();
-    private final MerchantTypeHandler handler = new MerchantTypeHandler();
+    private final NamedTypeHandler<TestNamed> handler = new NamedTypeHandler<TestNamed>() {
+        @Override
+        TestNamed fromName(String name) {
+            return new TestNamed(name);
+        }
+    };
 
     @Test
     public void setParameter() throws SQLException {
         // given
         final PreparedStatement mock = Mockito.mock(PreparedStatement.class);
-        final Merchant merchant = generator.randomMerchant();
+        final TestNamed named = new TestNamed("some name");
 
         // when
-        handler.setParameter(mock, 0, merchant, JdbcType.VARCHAR);
+        handler.setParameter(mock, 0, named, JdbcType.VARCHAR);
 
         // then
-        Mockito.verify(mock).setString(0, merchant.getName());
+        Mockito.verify(mock).setString(0, named.getName());
     }
 
     @Test
@@ -38,10 +41,10 @@ public class MerchantTypeHandlerTest {
         Mockito.when(mock.getString("columnName")).thenReturn("returnString");
 
         // when
-        final Merchant actual = handler.getResult(mock, "columnName");
+        final TestNamed actual = handler.getResult(mock, "columnName");
 
         // then
-        assertThat(actual, is(Merchant.named("returnString")));
+        assertThat(actual.getName(), is("returnString"));
     }
 
     @Test
@@ -51,10 +54,10 @@ public class MerchantTypeHandlerTest {
         Mockito.when(mock.getString(0)).thenReturn("returnString");
 
         // when
-        final Merchant actual = handler.getResult(mock, 0);
+        final TestNamed actual = handler.getResult(mock, 0);
 
         // then
-        assertThat(actual, is(Merchant.named("returnString")));
+        assertThat(actual.getName(), is("returnString"));
     }
 
     @Test
@@ -64,9 +67,23 @@ public class MerchantTypeHandlerTest {
         Mockito.when(mock.getString(0)).thenReturn("returnString");
 
         // when
-        final Merchant actual = handler.getResult(mock, 0);
+        final TestNamed actual = handler.getResult(mock, 0);
 
         // then
-        assertThat(actual, is(Merchant.named("returnString")));
+        assertThat(actual.getName(), is("returnString"));
+    }
+
+    class TestNamed implements Named {
+
+        private final String name;
+
+        TestNamed(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
     }
 }
