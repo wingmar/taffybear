@@ -24,26 +24,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-public class Transactions {
+public class UnidentifiableTransactions {
     private final Collection<UnidentifiableTransaction> unidentifiableTransactions;
 
-    private Transactions(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
+    private UnidentifiableTransactions(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
         this.unidentifiableTransactions = unidentifiableTransactions;
     }
 
-    static Transactions of(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
-        return new Transactions(unidentifiableTransactions);
+    static UnidentifiableTransactions of(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
+        return new UnidentifiableTransactions(unidentifiableTransactions);
     }
 
-    static Transactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
+    static UnidentifiableTransactions fromInputStream(InputStream inputStream, boolean includeHeaders) throws IOException {
         return readTransactions(new InputStreamReader(inputStream), includeHeaders);
     }
 
-    static Transactions fromFile(File file, boolean includeHeaders) throws IOException {
+    static UnidentifiableTransactions fromFile(File file, boolean includeHeaders) throws IOException {
         return readTransactions(new FileReader(file), includeHeaders);
     }
 
-    private static Transactions readTransactions(Reader reader, boolean includeHeaders) throws IOException {
+    private static UnidentifiableTransactions readTransactions(Reader reader, boolean includeHeaders) throws IOException {
         if (includeHeaders) {
             try (final CSVParser parser = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(reader)) {
                 final List<CSVRecord> records = parser.getRecords();
@@ -57,7 +57,7 @@ public class Transactions {
         }
     }
 
-    private static Transactions parseRecordsWithHeaders(List<CSVRecord> records) {
+    private static UnidentifiableTransactions parseRecordsWithHeaders(List<CSVRecord> records) {
         return of(records.stream().map(record -> UnidentifiableTransaction
                 .createUsdTransaction(record.get(Header.DESCRIPTION.getName()),
                         LocalDate.parse(record.get(Header.TRANSACTION_DATE.getName()),
@@ -67,7 +67,7 @@ public class Transactions {
                 .collect(Collectors.toList()));
     }
 
-    private static Transactions parseRecordsWithoutHeaders(List<CSVRecord> records) {
+    private static UnidentifiableTransactions parseRecordsWithoutHeaders(List<CSVRecord> records) {
         final List<UnidentifiableTransaction> list = records.stream().map(record -> {
             final String merchant = record.get(Header.DESCRIPTION.ordinal());
             final LocalDate transactionDate = LocalDate.parse(record.get(Header.TRANSACTION_DATE.ordinal()),
@@ -110,11 +110,11 @@ public class Transactions {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Transactions)) {
+        if (obj == null || !(obj instanceof UnidentifiableTransactions)) {
             return false;
         }
 
-        final Transactions o = (Transactions) obj;
+        final UnidentifiableTransactions o = (UnidentifiableTransactions) obj;
         return Objects.equals(unidentifiableTransactions, o.unidentifiableTransactions);
     }
 

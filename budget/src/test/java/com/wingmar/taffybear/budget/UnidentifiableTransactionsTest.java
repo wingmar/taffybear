@@ -14,30 +14,30 @@ import java.util.Collections;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TransactionsTest {
+public class UnidentifiableTransactionsTest {
 
     @Test
     public void equals() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
-        final Transactions other = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions other = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
-        assertThat(transactions, is(other));
+        assertThat(unidentifiableTransactions, is(other));
     }
 
     @Test
     public void hash() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
-        final Transactions other = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions other = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
-        assertThat(transactions.hashCode(), is(other.hashCode()));
+        assertThat(unidentifiableTransactions.hashCode(), is(other.hashCode()));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class TransactionsTest {
         final File file = new File(getClass().getResource("transactions.csv").toURI());
 
         // when
-        final Transactions transactions = Transactions.fromFile(file, true);
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.fromFile(file, true);
 
         // then
         final UnidentifiableTransaction t0 = UnidentifiableTransaction.createUsdTransaction("FIRSTENERGY/EZPAYRECUR",
@@ -64,7 +64,7 @@ public class TransactionsTest {
                 BigDecimal.valueOf(-344.85),
                 "Home",
                 TransactionType.SALE);
-        assertThat(transactions, is(Transactions.of(ImmutableList.of(t0, t1, t2))));
+        assertThat(unidentifiableTransactions, is(UnidentifiableTransactions.of(ImmutableList.of(t0, t1, t2))));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TransactionsTest {
         // given
 
         // when
-        final Transactions transactions = Transactions.fromInputStream(new FileInputStream(new File(getClass()
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.fromInputStream(new FileInputStream(new File(getClass()
                 .getResource("transactions.csv").toURI())), true);
 
         // then
@@ -91,30 +91,30 @@ public class TransactionsTest {
                 BigDecimal.valueOf(-344.85),
                 "Home",
                 TransactionType.SALE);
-        assertThat(transactions, is(Transactions.of(ImmutableList.of(t0, t1, t2))));
+        assertThat(unidentifiableTransactions, is(UnidentifiableTransactions.of(ImmutableList.of(t0, t1, t2))));
     }
 
     @Test
     public void asInputStream() throws IOException {
         // given
-        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
         // when
-        final InputStream actual = transactions.asInputStream();
-        final Transactions fromInputStream = Transactions.fromInputStream(actual, false);
+        final InputStream actual = unidentifiableTransactions.asInputStream();
+        final UnidentifiableTransactions fromInputStream = UnidentifiableTransactions.fromInputStream(actual, false);
 
         // then
-        assertThat(fromInputStream, is(transactions));
+        assertThat(fromInputStream, is(unidentifiableTransactions));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void asList_immutable() {
-        final Transactions transactions = Transactions.of(Collections.singletonList(UnidentifiableTransaction
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections.singletonList(UnidentifiableTransaction
                 .createUsdTransaction("merchant", LocalDate.of(2020, 12, 1),
                         BigDecimal.valueOf(2.5), "category", TransactionType.SALE)));
 
-        transactions.asList().clear();
+        unidentifiableTransactions.asList().clear();
     }
 }
