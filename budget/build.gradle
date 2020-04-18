@@ -29,5 +29,7 @@ dependencies {
 
     testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
 
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
+
     testImplementation group: 'org.springframework', name: 'spring-test', version: '5.2.4.RELEASE'
 }
