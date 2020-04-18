@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -102,6 +103,14 @@ public class TestDataGenerator {
     }
 
     public Merchant randomMerchant() {
-        return Merchant.named(randomString("merchant"));
+        return randomNamed(Merchant::named);
+    }
+
+    public Category randomCategory() {
+        return randomNamed(Category::named);
+    }
+
+    public <T extends Named> T randomNamed(Function<String, T> namedCreator) {
+        return namedCreator.apply(randomString("someName"));
     }
 }
