@@ -6,7 +6,6 @@ import com.google.common.collect.Range;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,16 +39,16 @@ public class Transactions {
     }
 
     boolean isEmpty() {
-        return transactions.isEmpty();
+        return toUnidentifiableTransactions().isEmpty();
     }
 
     Range<LocalDate> getDateRange() {
-        if (isEmpty()) {
-            return Range.openClosed(LocalDate.MIN, LocalDate.MIN);
-        }
+        return toUnidentifiableTransactions().getDateRange();
+    }
 
-        final List<LocalDate> dates = transactions.stream().map(Transaction::getDate).collect(Collectors.toList());
-        return Range.closed(Collections.min(dates), Collections.max(dates));
+    UnidentifiableTransactions toUnidentifiableTransactions() {
+        return UnidentifiableTransactions.of(transactions.stream().map(Transaction::incognito)
+                .collect(Collectors.toList()));
     }
 
     @Override

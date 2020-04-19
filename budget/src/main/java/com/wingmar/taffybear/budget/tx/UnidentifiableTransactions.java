@@ -2,6 +2,8 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Range;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -19,8 +21,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -29,6 +33,10 @@ public class UnidentifiableTransactions {
 
     private UnidentifiableTransactions(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
         this.unidentifiableTransactions = unidentifiableTransactions;
+    }
+
+    static UnidentifiableTransactions empty() {
+        return new UnidentifiableTransactions(Collections.emptyList());
     }
 
     static UnidentifiableTransactions of(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
@@ -106,6 +114,24 @@ public class UnidentifiableTransactions {
 
     List<UnidentifiableTransaction> asList() {
         return ImmutableList.copyOf(unidentifiableTransactions);
+    }
+
+    Set<UnidentifiableTransaction> asSet() {
+        return ImmutableSet.copyOf(unidentifiableTransactions);
+    }
+
+    boolean isEmpty() {
+        return unidentifiableTransactions.isEmpty();
+    }
+
+    Range<LocalDate> getDateRange() {
+        if (isEmpty()) {
+            return Range.openClosed(LocalDate.MIN, LocalDate.MIN);
+        }
+
+        final List<LocalDate> dates = unidentifiableTransactions.stream().map(UnidentifiableTransaction::getDate)
+                .collect(Collectors.toList());
+        return Range.closed(Collections.min(dates), Collections.max(dates));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.wingmar.taffybear.budget.tx;
 
+import com.google.common.collect.Range;
+import com.google.common.collect.Sets;
 import java.time.LocalDate;
 
 public class DaoBasedTransactionService implements TransactionService {
@@ -13,5 +15,17 @@ public class DaoBasedTransactionService implements TransactionService {
     @Override
     public Transactions find(LocalDate lower, LocalDate upper) {
         return Transactions.ofIterable(transactionDao.find(lower, upper));
+    }
+
+    @Override
+    public void save(UnidentifiableTransactions unidentifiableTransactions) {
+        final Range<LocalDate> dateRange = unidentifiableTransactions.getDateRange();
+        final Transactions existingTransactions = find(dateRange.lowerEndpoint(), dateRange.upperEndpoint());
+        final UnidentifiableTransactions existingUnidentifiableTransactions = existingTransactions
+                .toUnidentifiableTransactions();
+        final Sets.SetView<UnidentifiableTransaction> newTransations = Sets
+                .difference(unidentifiableTransactions.asSet(), existingUnidentifiableTransactions.asSet());
+
+        newTransations.forEach(transactionDao::insert);
     }
 }

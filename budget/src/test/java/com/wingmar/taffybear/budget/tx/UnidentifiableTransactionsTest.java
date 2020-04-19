@@ -1,6 +1,7 @@
 package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Range;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Test;
@@ -12,13 +13,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class UnidentifiableTransactionsTest {
+
+    private final TestDataGenerator generator = TestDataGenerator.newInstance();
 
     @Test
     public void equals() {
@@ -40,7 +48,7 @@ public class UnidentifiableTransactionsTest {
     @Test
     public void equals_null() {
         final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections
-                .singletonList(TestDataGenerator.newInstance().randomUnidentifiableTransaction()));
+                .singletonList(generator.randomUnidentifiableTransaction()));
 
         assertFalse(unidentifiableTransactions.equals(null));
     }
@@ -131,5 +139,77 @@ public class UnidentifiableTransactionsTest {
                         BigDecimal.valueOf(2.5).setScale(2, RoundingMode.HALF_UP)), Category.named("category"), TransactionType.SALE)));
 
         unidentifiableTransactions.asList().clear();
+    }
+
+    @Test
+    public void isEmpty_true() {
+        final UnidentifiableTransactions actual = UnidentifiableTransactions.of(Collections.emptyList());
+
+        assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    public void isEmpty_false() {
+        final UnidentifiableTransactions actual = UnidentifiableTransactions.of(Collections
+                .singletonList(generator.randomUnidentifiableTransaction()));
+
+        assertFalse(actual.isEmpty());
+    }
+
+    @Test
+    public void empty() {
+        final UnidentifiableTransactions empty = UnidentifiableTransactions.empty();
+
+        assertTrue(empty.isEmpty());
+    }
+
+    @Test
+    public void getDateRange_empty() {
+        final UnidentifiableTransactions empty = UnidentifiableTransactions.empty();
+
+        assertTrue(empty.getDateRange().isEmpty());
+    }
+
+    @Test
+    public void getDateRange() {
+        final UnidentifiableTransactions of = UnidentifiableTransactions.of(Arrays.asList(
+                generator.randomUnidentifiableTransaction(LocalDate.parse("2001-04-05")),
+                generator.randomUnidentifiableTransaction(LocalDate.parse("2020-01-01")),
+                generator.randomUnidentifiableTransaction(LocalDate.parse("1975-05-18"))
+        ));
+
+        assertThat(of.getDateRange(), is(Range.closed(LocalDate.parse("1975-05-18"), LocalDate.parse("2020-01-01"))));
+    }
+
+    @Test
+    public void asSet() {
+        final UnidentifiableTransaction t0 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("2001-04-05"));
+        final UnidentifiableTransaction t1 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("2020-01-01"));
+        final UnidentifiableTransaction t2 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("1975-05-18"));
+        final List<UnidentifiableTransaction> unidentifiableTransactions = Arrays.asList(t0, t1, t2);
+        final UnidentifiableTransactions of = UnidentifiableTransactions.of(unidentifiableTransactions);
+
+        final Set<UnidentifiableTransaction> actual = of.asSet();
+
+        assertThat(actual, is(new HashSet<>(unidentifiableTransactions)));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void asSet_immutable() {
+        final UnidentifiableTransaction t0 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("2001-04-05"));
+        final UnidentifiableTransaction t1 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("2020-01-01"));
+        final UnidentifiableTransaction t2 = generator.randomUnidentifiableTransaction
+                (LocalDate.parse("1975-05-18"));
+        final List<UnidentifiableTransaction> unidentifiableTransactions = Arrays.asList(t0, t1, t2);
+        final UnidentifiableTransactions of = UnidentifiableTransactions.of(unidentifiableTransactions);
+
+        final Set<UnidentifiableTransaction> actual = of.asSet();
+
+        actual.add(generator.randomUnidentifiableTransaction());
     }
 }

@@ -41,7 +41,11 @@ public class Transaction implements Identifiable {
         return id;
     }
 
-    private Money getAmount() {
+    public UnidentifiableTransaction incognito() {
+        return unidentifiableTransaction;
+    }
+
+    Money getAmount() {
         return unidentifiableTransaction.getAmount();
     }
 
@@ -49,15 +53,15 @@ public class Transaction implements Identifiable {
         return unidentifiableTransaction.getDate();
     }
 
-    private Merchant getMerchant() {
+    Merchant getMerchant() {
         return unidentifiableTransaction.getMerchant();
     }
 
-    private Category getCategory() {
+    Category getCategory() {
         return unidentifiableTransaction.getCategory();
     }
 
-    private TransactionType getType() {
+    TransactionType getType() {
         return unidentifiableTransaction.getType();
     }
 

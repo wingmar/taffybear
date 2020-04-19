@@ -56,8 +56,12 @@ public class TestDataGenerator {
                 .findFirst().getAsLong();
     }
 
-    private BigDecimal randomFloatBigDecimal(float max) {
+    BigDecimal randomFloatBigDecimal(float max) {
         return BigDecimal.valueOf(randomFloat(max));
+    }
+
+    BigDecimal randomFloatBigDecimal() {
+        return randomFloatBigDecimal(Float.MAX_VALUE);
     }
 
     public Money randomMoney() {
@@ -118,5 +122,10 @@ public class TestDataGenerator {
 
     public <T extends Named> T randomNamed(Function<String, T> namedCreator) {
         return namedCreator.apply(randomString("someName"));
+    }
+
+    UnidentifiableTransaction randomUnidentifiableTransaction(LocalDate date) {
+        return UnidentifiableTransaction.createUsdTransaction(randomMerchant(), date,
+                randomFloatBigDecimal(), randomCategory(), randomTransactionType());
     }
 }

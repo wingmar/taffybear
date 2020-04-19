@@ -30,4 +30,14 @@ public class TransactionTest {
 
         assertThat(transaction.hashCode(), is(other.hashCode()));
     }
+
+    @Test
+    public void incognito() {
+        final Transaction transaction = dataGenerator.randomTransaction();
+
+        final UnidentifiableTransaction actual = transaction.incognito();
+
+        assertThat(actual, is(UnidentifiableTransaction.createTransaction(transaction.getMerchant(),
+                transaction.getDate(), transaction.getAmount(), transaction.getCategory(), transaction.getType())));
+    }
 }
