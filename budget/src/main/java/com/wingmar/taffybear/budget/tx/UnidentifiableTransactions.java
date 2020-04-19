@@ -1,7 +1,6 @@
 package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
 import org.apache.commons.csv.CSVFormat;
@@ -29,10 +28,10 @@ import java.util.stream.Collectors;
 
 
 public class UnidentifiableTransactions {
-    private final Collection<UnidentifiableTransaction> unidentifiableTransactions;
+    private final Set<UnidentifiableTransaction> unidentifiableTransactions;
 
     private UnidentifiableTransactions(Collection<UnidentifiableTransaction> unidentifiableTransactions) {
-        this.unidentifiableTransactions = unidentifiableTransactions;
+        this.unidentifiableTransactions = ImmutableSet.copyOf(unidentifiableTransactions);
     }
 
     static UnidentifiableTransactions empty() {
@@ -110,10 +109,6 @@ public class UnidentifiableTransactions {
             });
         }
         return new ByteArrayInputStream(out.toByteArray());
-    }
-
-    List<UnidentifiableTransaction> asList() {
-        return ImmutableList.copyOf(unidentifiableTransactions);
     }
 
     Set<UnidentifiableTransaction> asSet() {

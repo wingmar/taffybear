@@ -23,9 +23,9 @@ public class DaoBasedTransactionService implements TransactionService {
         final Transactions existingTransactions = find(dateRange.lowerEndpoint(), dateRange.upperEndpoint());
         final UnidentifiableTransactions existingUnidentifiableTransactions = existingTransactions
                 .toUnidentifiableTransactions();
-        final Sets.SetView<UnidentifiableTransaction> newTransations = Sets
+        final Sets.SetView<UnidentifiableTransaction> newTransactions = Sets
                 .difference(unidentifiableTransactions.asSet(), existingUnidentifiableTransactions.asSet());
 
-        newTransations.forEach(transactionDao::insert);
+        newTransactions.forEach(transactionDao::insert);
     }
 }

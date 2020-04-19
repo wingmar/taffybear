@@ -101,6 +101,10 @@ public class TestDataGenerator {
         return Transaction.create(UUID.randomUUID(), randomUnidentifiableTransaction());
     }
 
+    Transaction randomTransaction(LocalDate date) {
+        return Transaction.create(UUID.randomUUID(), randomUnidentifiableTransaction(date));
+    }
+
     List<UnidentifiableTransaction> randomUnidentifiableTransactionList(int size) {
         return IntStream.range(0, size).mapToObj(i -> randomUnidentifiableTransaction()).collect(Collectors.toList());
     }

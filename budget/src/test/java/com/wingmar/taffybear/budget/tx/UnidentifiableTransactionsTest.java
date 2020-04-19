@@ -131,16 +131,6 @@ public class UnidentifiableTransactionsTest {
         assertThat(fromInputStream, is(unidentifiableTransactions));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void asList_immutable() {
-        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections
-                .singletonList(UnidentifiableTransaction.createTransaction(Merchant.named("merchant"), LocalDate.of
-                        (2020, 12, 1), Money.of(CurrencyUnit.USD,
-                        BigDecimal.valueOf(2.5).setScale(2, RoundingMode.HALF_UP)), Category.named("category"), TransactionType.SALE)));
-
-        unidentifiableTransactions.asList().clear();
-    }
-
     @Test
     public void isEmpty_true() {
         final UnidentifiableTransactions actual = UnidentifiableTransactions.of(Collections.emptyList());
