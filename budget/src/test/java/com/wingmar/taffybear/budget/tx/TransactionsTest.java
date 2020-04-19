@@ -31,6 +31,15 @@ public class TransactionsTest {
     }
 
     @Test
+    public void equals_null() {
+        final Transaction t0 = generator.randomTransaction();
+        final Transaction t1 = generator.randomTransaction();
+        final Transaction t2 = generator.randomTransaction();
+        final Transactions transactions = Transactions.of(t0, t1, t2);
+        assertFalse(transactions.equals(null));
+    }
+
+    @Test
     public void hash() {
         final Transaction t0 = generator.randomTransaction();
         final Transaction t1 = generator.randomTransaction();

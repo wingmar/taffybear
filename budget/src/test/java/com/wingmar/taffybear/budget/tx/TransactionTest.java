@@ -3,6 +3,7 @@ package com.wingmar.taffybear.budget.tx;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class TransactionTest {
@@ -15,6 +16,11 @@ public class TransactionTest {
         final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction, is(other));
+    }
+
+    @Test
+    public void equals_null() {
+        assertFalse(dataGenerator.randomTransaction().equals(null));
     }
 
     @Test

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class UnidentifiableTransactionsTest {
@@ -34,6 +35,14 @@ public class UnidentifiableTransactionsTest {
                                 BigDecimal.valueOf(2.5).setScale(2, RoundingMode.HALF_UP)), Category.named("category"), TransactionType.SALE)));
 
         assertThat(unidentifiableTransactions, is(other));
+    }
+
+    @Test
+    public void equals_null() {
+        final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections
+                .singletonList(TestDataGenerator.newInstance().randomUnidentifiableTransaction()));
+
+        assertFalse(unidentifiableTransactions.equals(null));
     }
 
     @Test

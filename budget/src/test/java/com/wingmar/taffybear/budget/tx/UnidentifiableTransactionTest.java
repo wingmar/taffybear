@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class UnidentifiableTransactionTest {
@@ -20,6 +21,13 @@ public class UnidentifiableTransactionTest {
         final UnidentifiableTransaction other = UnidentifiableTransaction.copy(unidentifiableTransaction);
 
         assertThat(unidentifiableTransaction, is(other));
+    }
+
+    @Test
+    public void equals_null() {
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+
+        assertFalse(unidentifiableTransaction.equals(null));
     }
 
     @Test
