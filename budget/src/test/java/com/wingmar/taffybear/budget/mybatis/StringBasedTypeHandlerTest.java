@@ -9,7 +9,6 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Function;
 
 public abstract class StringBasedTypeHandlerTest<T> extends AbstractTypeHandlerTest<T> {
 
@@ -17,34 +16,34 @@ public abstract class StringBasedTypeHandlerTest<T> extends AbstractTypeHandlerT
 
     @Override
     protected void setupMockedResultSet(ResultSet resultSet, String columnName, int columnIndex) throws SQLException {
-        Mockito.when(resultSet.getString(columnName)).thenReturn(getTestColumnValue());
-        Mockito.when(resultSet.getString(columnIndex)).thenReturn(getTestColumnValue());
+        Mockito.when(resultSet.getString(columnName)).thenReturn(getInternalValue());
+        Mockito.when(resultSet.getString(columnIndex)).thenReturn(getInternalValue());
     }
 
     @Override
     protected void setupMockedCallableStatement(CallableStatement callableStatement, int columnIndex) throws
             SQLException {
-        Mockito.when(callableStatement.getString(columnIndex)).thenReturn(getTestColumnValue());
+        Mockito.when(callableStatement.getString(columnIndex)).thenReturn(getInternalValue());
     }
 
     @Override
     protected Matcher<T> getResultMatchesTestValue() {
-        return Matchers.is(getCreator().apply(getTestColumnValue()));
+        return Matchers.is(getTestEntity());
     }
 
     @Override
     protected T getSetParameterEntity() {
-        return getCreator().apply(getTestColumnValue());
+        return getTestEntity();
     }
 
-    protected abstract Function<String, T> getCreator();
+    protected abstract T getTestEntity();
 
-    protected abstract String getTestColumnValue();
+    protected abstract String getInternalValue();
 
     protected abstract JdbcType getJdbcType();
 
     @Override
     protected void verifyPreparedStatementSetParameter(PreparedStatement preparedStatement) throws SQLException {
-        Mockito.verify(preparedStatement).setString(getColumnIndex(), getTestColumnValue());
+        Mockito.verify(preparedStatement).setString(getColumnIndex(), getInternalValue());
     }
 }

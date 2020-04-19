@@ -3,7 +3,6 @@ package com.wingmar.taffybear.budget.mybatis;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import java.util.UUID;
-import java.util.function.Function;
 
 public class UUIDTypeHandlerTest extends StringBasedTypeHandlerTest<UUID> {
 
@@ -15,12 +14,12 @@ public class UUIDTypeHandlerTest extends StringBasedTypeHandlerTest<UUID> {
     }
 
     @Override
-    protected Function<String, UUID> getCreator() {
-        return UUID::fromString;
+    protected UUID getTestEntity() {
+        return uuid;
     }
 
     @Override
-    protected String getTestColumnValue() {
+    protected String getInternalValue() {
         return uuid.toString();
     }
 

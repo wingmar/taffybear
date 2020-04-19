@@ -2,9 +2,10 @@ package com.wingmar.taffybear.budget.mybatis;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
-import java.util.function.Function;
 
 public class NamedTypeHandlerTest extends StringBasedTypeHandlerTest<TestNamed> {
+
+    private final String someTestString = "someTestString";
 
     @Override
     protected TypeHandler<TestNamed> getTypeHandler() {
@@ -17,13 +18,13 @@ public class NamedTypeHandlerTest extends StringBasedTypeHandlerTest<TestNamed> 
     }
 
     @Override
-    protected Function<String, TestNamed> getCreator() {
-        return TestNamed::new;
+    protected TestNamed getTestEntity() {
+        return new TestNamed(someTestString);
     }
 
     @Override
-    protected String getTestColumnValue() {
-        return "some value";
+    protected String getInternalValue() {
+        return someTestString;
     }
 
     @Override
