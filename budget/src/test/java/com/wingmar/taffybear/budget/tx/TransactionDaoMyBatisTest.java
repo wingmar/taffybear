@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -66,7 +67,7 @@ public class TransactionDaoMyBatisTest {
     }
 
     @Test
-    public void find_transactions() {
+    public void find_transactions_random() {
         // given
         final List<Transaction> transactions = generator.randomUnidentifiableTransactionList(10).stream()
                 .map(transactionDao::insert)
@@ -80,5 +81,143 @@ public class TransactionDaoMyBatisTest {
 
         // then
         assertThat(actual, Matchers.containsInAnyOrder(transactions.toArray(new Transaction[transactions.size()])));
+    }
+
+    @Test
+    public void find_transactions_exact_minInclusive() {
+        // given
+        final UnidentifiableTransaction ut0 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("tractor supply"),
+                LocalDate.parse("2019-10-26"), BigDecimal.valueOf(101.43),
+                Category.named("pet food"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut1 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("mount airy inn"),
+                LocalDate.parse("2019-12-17"), BigDecimal.valueOf(26.89),
+                Category.named("restaurants"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut2 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("safeway"),
+                LocalDate.parse("2019-07-04"), BigDecimal.valueOf(56.78),
+                Category.named("groceries"), TransactionType.SALE);
+
+        final Transaction t0 = transactionDao.insert(ut0);
+        final Transaction t1 = transactionDao.insert(ut1);
+        final Transaction t2 = transactionDao.insert(ut2);
+
+        // when
+        final List<Transaction> actual = transactionDao.find(LocalDate.parse("2019-07-04"), LocalDate.parse
+                ("2020-01-01"));
+
+        // then
+        assertThat(actual, Matchers.containsInAnyOrder(t0, t1, t2));
+    }
+
+    @Test
+    public void find_transactions_exact_maxInclusive() {
+        // given
+        final UnidentifiableTransaction ut0 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("tractor supply"),
+                LocalDate.parse("2019-10-26"), BigDecimal.valueOf(101.43),
+                Category.named("pet food"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut1 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("mount airy inn"),
+                LocalDate.parse("2019-12-17"), BigDecimal.valueOf(26.89),
+                Category.named("restaurants"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut2 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("safeway"),
+                LocalDate.parse("2019-07-04"), BigDecimal.valueOf(56.78),
+                Category.named("groceries"), TransactionType.SALE);
+
+        final Transaction t0 = transactionDao.insert(ut0);
+        final Transaction t1 = transactionDao.insert(ut1);
+        final Transaction t2 = transactionDao.insert(ut2);
+
+        // when
+        final List<Transaction> actual = transactionDao.find(LocalDate.parse("2019-07-04"), LocalDate.parse
+                ("2019-12-17"));
+
+        // then
+        assertThat(actual, Matchers.containsInAnyOrder(t0, t1, t2));
+    }
+
+    @Test
+    public void find_transactions_exact_minRestricts() {
+        // given
+        final UnidentifiableTransaction ut0 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("tractor supply"),
+                LocalDate.parse("2019-10-26"), BigDecimal.valueOf(101.43),
+                Category.named("pet food"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut1 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("mount airy inn"),
+                LocalDate.parse("2019-12-17"), BigDecimal.valueOf(26.89),
+                Category.named("restaurants"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut2 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("safeway"),
+                LocalDate.parse("2019-07-04"), BigDecimal.valueOf(56.78),
+                Category.named("groceries"), TransactionType.SALE);
+
+        final Transaction t0 = transactionDao.insert(ut0);
+        final Transaction t1 = transactionDao.insert(ut1);
+        transactionDao.insert(ut2);
+
+        // when
+        final List<Transaction> actual = transactionDao.find(LocalDate.parse("2019-07-05"), LocalDate.parse
+                ("2019-12-17"));
+
+        // then
+        assertThat(actual, Matchers.containsInAnyOrder(t0, t1));
+    }
+
+    @Test
+    public void find_transactions_exact_maxRestricts() {
+        // given
+        final UnidentifiableTransaction ut0 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("tractor supply"),
+                LocalDate.parse("2019-10-26"), BigDecimal.valueOf(101.43),
+                Category.named("pet food"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut1 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("mount airy inn"),
+                LocalDate.parse("2019-12-17"), BigDecimal.valueOf(26.89),
+                Category.named("restaurants"), TransactionType.SALE);
+
+        final UnidentifiableTransaction ut2 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("safeway"),
+                LocalDate.parse("2019-07-04"), BigDecimal.valueOf(56.78),
+                Category.named("groceries"), TransactionType.SALE);
+
+        final Transaction t0 = transactionDao.insert(ut0);
+        transactionDao.insert(ut1);
+        final Transaction t2 = transactionDao.insert(ut2);
+
+        // when
+        final List<Transaction> actual = transactionDao.find(LocalDate.parse("2019-07-04"), LocalDate.parse
+                ("2019-12-16"));
+
+        // then
+        assertThat(actual, Matchers.containsInAnyOrder(t0, t2));
+    }
+
+    @Test
+    public void find_transactions_exact_single() {
+        // given
+        final UnidentifiableTransaction ut0 = UnidentifiableTransaction.createUsdTransaction(Merchant
+                        .named("tractor supply"),
+                LocalDate.parse("2019-10-26"), BigDecimal.valueOf(101.43),
+                Category.named("pet food"), TransactionType.SALE);
+
+        final Transaction t0 = transactionDao.insert(ut0);
+
+        // when
+        final List<Transaction> actual = transactionDao.find(LocalDate.parse("2019-10-26"), LocalDate.parse
+                ("2019-10-26"));
+
+        // then
+        assertThat(actual, Matchers.contains(t0));
     }
 }
