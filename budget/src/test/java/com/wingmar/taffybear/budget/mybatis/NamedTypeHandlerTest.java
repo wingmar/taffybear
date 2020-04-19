@@ -22,11 +22,6 @@ public class NamedTypeHandlerTest extends StringBasedTypeHandlerTest<TestNamed> 
     }
 
     @Override
-    protected Function<TestNamed, String> getStringGetter() {
-        return TestNamed::getName;
-    }
-
-    @Override
     protected String getTestColumnValue() {
         return "some value";
     }

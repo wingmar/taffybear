@@ -4,7 +4,6 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Test;
 import org.mockito.Mockito;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -29,28 +28,23 @@ public abstract class StringBasedTypeHandlerTest<T> extends AbstractTypeHandlerT
     }
 
     @Override
-    protected Matcher<T> matchesTestValue() {
+    protected Matcher<T> getResultMatchesTestValue() {
         return Matchers.is(getCreator().apply(getTestColumnValue()));
     }
 
-    protected abstract Function<String, T> getCreator();
+    @Override
+    protected T getSetParameterEntity() {
+        return getCreator().apply(getTestColumnValue());
+    }
 
-    protected abstract Function<T, String> getStringGetter();
+    protected abstract Function<String, T> getCreator();
 
     protected abstract String getTestColumnValue();
 
     protected abstract JdbcType getJdbcType();
 
-    @Test
-    public void setParameter() throws SQLException {
-        // given
-        final PreparedStatement mock = Mockito.mock(PreparedStatement.class);
-        final T someT = getCreator().apply(getTestColumnValue());
-
-        // when
-        getTypeHandler().setParameter(mock, 0, someT, getJdbcType());
-
-        // then
-        Mockito.verify(mock).setString(0, getStringGetter().apply(someT));
+    @Override
+    protected void verifyPreparedStatementSetParameter(PreparedStatement preparedStatement) throws SQLException {
+        Mockito.verify(preparedStatement).setString(getColumnIndex(), getTestColumnValue());
     }
 }

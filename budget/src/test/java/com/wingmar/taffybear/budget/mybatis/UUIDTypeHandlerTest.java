@@ -20,11 +20,6 @@ public class UUIDTypeHandlerTest extends StringBasedTypeHandlerTest<UUID> {
     }
 
     @Override
-    protected Function<UUID, String> getStringGetter() {
-        return UUID::toString;
-    }
-
-    @Override
     protected String getTestColumnValue() {
         return uuid.toString();
     }
