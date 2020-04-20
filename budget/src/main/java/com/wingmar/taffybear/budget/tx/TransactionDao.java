@@ -15,9 +15,9 @@ public interface TransactionDao {
     /**
      * Finds the transactions in the time window between lower and upper (inclusive)
      *
-     * @param lower
-     * @param upper
-     * @return
+     * @param lower lower bound
+     * @param upper upper bound
+     * @return list of transactions during the time period, inclusive
      */
     List<Transaction> find(LocalDate lower, LocalDate upper);
 }

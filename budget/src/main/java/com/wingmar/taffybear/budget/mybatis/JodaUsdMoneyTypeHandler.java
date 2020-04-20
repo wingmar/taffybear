@@ -11,13 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@SuppressWarnings("WeakerAccess")
 public class JodaUsdMoneyTypeHandler implements TypeHandler<Money> {
     @Override
     public void setParameter(PreparedStatement ps, int i, Money parameter, JdbcType jdbcType) throws SQLException {
         ps.setBigDecimal(i, parameter.getAmount());
     }
 
-    private Money usdScaled(BigDecimal bigDecimal) throws SQLException {
+    private Money usdScaled(BigDecimal bigDecimal) {
         return Money.of(CurrencyUnit.USD, bigDecimal.setScale(2, RoundingMode.HALF_UP));
     }
 

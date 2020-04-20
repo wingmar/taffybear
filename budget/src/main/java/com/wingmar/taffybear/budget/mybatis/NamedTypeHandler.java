@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class NamedTypeHandler<T extends Named> implements TypeHandler<T> {
+abstract class NamedTypeHandler<T extends Named> implements TypeHandler<T> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {

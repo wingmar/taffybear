@@ -89,7 +89,7 @@ public class TransactionDaoMyBatisTest {
     @Test
     public void find_transactions_random() {
         // given
-        final List<Transaction> transactions = generator.randomUnidentifiableTransactionList(10).stream()
+        final List<Transaction> transactions = generator.randomUnidentifiableTransactionList().stream()
                 .map(transactionDao::insert)
                 .collect(Collectors.toList());
         final List<LocalDate> dates = transactions.stream().map(Transaction::getDate).collect(Collectors.toList());

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@SuppressWarnings("WeakerAccess")
 public class UUIDTypeHandler implements TypeHandler<UUID> {
     @Override
     public void setParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType) throws SQLException {

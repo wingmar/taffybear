@@ -6,9 +6,9 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class UnidentifiableTransactionTest {
@@ -27,7 +27,7 @@ public class UnidentifiableTransactionTest {
     public void equals_null() {
         final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
 
-        assertFalse(unidentifiableTransaction.equals(null));
+        assertThat(unidentifiableTransaction, not(equalTo(null)));
     }
 
     @Test

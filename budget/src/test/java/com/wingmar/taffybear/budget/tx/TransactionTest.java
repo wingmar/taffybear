@@ -2,17 +2,18 @@ package com.wingmar.taffybear.budget.tx;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class TransactionTest {
 
-    private final TestDataGenerator dataGenerator = TestDataGenerator.newInstance();
+    private final TestDataGenerator generator = TestDataGenerator.newInstance();
 
     @Test
     public void equals() {
-        final Transaction transaction = dataGenerator.randomTransaction();
+        final Transaction transaction = generator.randomTransaction();
         final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction, is(other));
@@ -20,12 +21,12 @@ public class TransactionTest {
 
     @Test
     public void equals_null() {
-        assertFalse(dataGenerator.randomTransaction().equals(null));
+        assertThat(generator.randomTransaction(), not(equalTo(null)));
     }
 
     @Test
     public void hash() {
-        final Transaction transaction = dataGenerator.randomTransaction();
+        final Transaction transaction = generator.randomTransaction();
         final Transaction other = Transaction.create(transaction);
 
         assertThat(transaction.hashCode(), is(other.hashCode()));
@@ -33,7 +34,7 @@ public class TransactionTest {
 
     @Test
     public void incognito() {
-        final Transaction transaction = dataGenerator.randomTransaction();
+        final Transaction transaction = generator.randomTransaction();
 
         final UnidentifiableTransaction actual = transaction.incognito();
 

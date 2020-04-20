@@ -47,20 +47,20 @@ public class TestDataGenerator {
     int randomIntBetween(int min, int max) {
         Preconditions.checkArgument(min < max);
         return random.ints(min, max + 1)
-                .findFirst().getAsInt();
+                .findFirst().orElseThrow(IllegalStateException::new);
     }
 
     private long randomLongBetween(long min, long max) {
         Preconditions.checkArgument(min < max);
         return random.longs(min, max + 1)
-                .findFirst().getAsLong();
+                .findFirst().orElseThrow(IllegalStateException::new);
     }
 
-    BigDecimal randomFloatBigDecimal(float max) {
+    private BigDecimal randomFloatBigDecimal(float max) {
         return BigDecimal.valueOf(randomFloat(max));
     }
 
-    BigDecimal randomFloatBigDecimal() {
+    private BigDecimal randomFloatBigDecimal() {
         return randomFloatBigDecimal(Float.MAX_VALUE);
     }
 
@@ -105,8 +105,8 @@ public class TestDataGenerator {
         return Transaction.create(UUID.randomUUID(), randomUnidentifiableTransaction(date));
     }
 
-    List<UnidentifiableTransaction> randomUnidentifiableTransactionList(int size) {
-        return IntStream.range(0, size).mapToObj(i -> randomUnidentifiableTransaction()).collect(Collectors.toList());
+    List<UnidentifiableTransaction> randomUnidentifiableTransactionList() {
+        return IntStream.range(0, 10).mapToObj(i -> randomUnidentifiableTransaction()).collect(Collectors.toList());
     }
 
     UnidentifiableTransaction randomUnidentifiableTransaction() {
@@ -124,7 +124,7 @@ public class TestDataGenerator {
         return randomNamed(Category::named);
     }
 
-    public <T extends Named> T randomNamed(Function<String, T> namedCreator) {
+    private <T extends Named> T randomNamed(Function<String, T> namedCreator) {
         return namedCreator.apply(randomString("someName"));
     }
 

@@ -164,7 +164,7 @@ public class UnidentifiableTransactions {
             this.name = name;
         }
 
-        public String getName() {
+        String getName() {
             return name;
         }
 

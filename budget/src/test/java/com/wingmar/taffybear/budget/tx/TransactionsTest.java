@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +38,8 @@ public class TransactionsTest {
         final Transaction t1 = generator.randomTransaction();
         final Transaction t2 = generator.randomTransaction();
         final Transactions transactions = Transactions.of(t0, t1, t2);
-        assertFalse(transactions.equals(null));
+
+        assertThat(transactions, not(equalTo(null)));
     }
 
     @Test

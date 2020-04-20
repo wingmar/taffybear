@@ -2,9 +2,9 @@ package com.wingmar.taffybear.budget.tx;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class CategoryTest {
@@ -36,9 +36,9 @@ public class CategoryTest {
 
     @Test
     public void equals_null() {
-        final Category merchant = generator.randomCategory();
+        final Category category = generator.randomCategory();
 
-        assertFalse(merchant.equals(null));
+        assertThat(category, not(equalTo(null)));
     }
 
     @Test

@@ -19,7 +19,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -50,7 +52,7 @@ public class UnidentifiableTransactionsTest {
         final UnidentifiableTransactions unidentifiableTransactions = UnidentifiableTransactions.of(Collections
                 .singletonList(generator.randomUnidentifiableTransaction()));
 
-        assertFalse(unidentifiableTransactions.equals(null));
+        assertThat(unidentifiableTransactions, not(equalTo(null)));
     }
 
     @Test
