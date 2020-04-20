@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.TransactionManager;
@@ -23,6 +24,8 @@ public class BudgetApplicationContextTest {
     @Autowired
     private DataSource dataSource;
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
     private SqlSessionFactory sqlSessionFactory;
     @Autowired
     private TransactionManager transactionManager;
@@ -32,6 +35,11 @@ public class BudgetApplicationContextTest {
     @Test
     public void dataSource() throws Exception {
         assertThat(dataSource, not(nullValue()));
+    }
+
+    @Test
+    public void jdbcTemplate() {
+        assertThat(jdbcTemplate, not(nullValue()));
     }
 
     @Test

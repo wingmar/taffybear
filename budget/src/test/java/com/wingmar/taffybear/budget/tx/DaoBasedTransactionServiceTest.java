@@ -32,6 +32,16 @@ public class DaoBasedTransactionServiceTest {
     }
 
     @Test
+    public void all() {
+        final List<Transaction> transactionsList = Collections.singletonList(generator.randomTransaction());
+        Mockito.when(transactionDao.all()).thenReturn(transactionsList);
+
+        final Transactions all = transactionService.all();
+
+        assertThat(all, is(Transactions.ofIterable(transactionsList)));
+    }
+
+    @Test
     public void find() {
         final List<Transaction> transactionsList = Collections.singletonList(generator.randomTransaction());
         Mockito.when(transactionDao.find(Mockito.any(), Mockito.any())).thenReturn(transactionsList);

@@ -23,6 +23,10 @@
         VALUES (#{id}, #{merchant}, #{date}, #{amount}, #{category}, #{type});
     </insert>
 
+    <select id="all" resultMap="map">
+        SELECT * FROM transaction
+    </select>
+
     <select id="find" resultMap="map">
         SELECT * FROM transaction
         WHERE id = #{value}

@@ -18,6 +18,11 @@ public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements Trans
     }
 
     @Override
+    public List<Transaction> all() {
+        return getSqlSession().selectList("transaction.all");
+    }
+
+    @Override
     public Optional<Transaction> find(UUID id) {
         return Optional.ofNullable(getSqlSession().selectOne("transaction.find", id));
     }

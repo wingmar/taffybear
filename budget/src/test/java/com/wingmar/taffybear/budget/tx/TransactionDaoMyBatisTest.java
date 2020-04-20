@@ -5,6 +5,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -27,8 +29,12 @@ import static org.junit.Assert.assertThat;
 public class TransactionDaoMyBatisTest {
 
     private final TestDataGenerator generator = TestDataGenerator.newInstance();
+
     @Autowired
     private TransactionDao transactionDao;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     public void insert_populatesId() throws Exception {
@@ -40,6 +46,20 @@ public class TransactionDaoMyBatisTest {
 
         // then
         assertThat(transaction.getId(), not(nullValue()));
+    }
+
+    @Test
+    public void all() {
+        // given
+        jdbcTemplate.update("delete from transaction");
+        final int numInserted = 20;
+        IntStream.range(0, numInserted).forEach(i -> transactionDao.insert(generator.randomUnidentifiableTransaction
+                ()));
+
+        // when
+        final List<Transaction> all = transactionDao.all();
+
+        assertThat(all.size(), is(numInserted));
     }
 
     @Test

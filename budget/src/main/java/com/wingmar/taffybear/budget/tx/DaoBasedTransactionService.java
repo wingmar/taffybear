@@ -13,6 +13,11 @@ public class DaoBasedTransactionService implements TransactionService {
     }
 
     @Override
+    public Transactions all() {
+        return Transactions.ofIterable(transactionDao.all());
+    }
+
+    @Override
     public Transactions find(LocalDate lower, LocalDate upper) {
         return Transactions.ofIterable(transactionDao.find(lower, upper));
     }
