@@ -2,7 +2,10 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class DaoBasedTransactionService implements TransactionService {
 
@@ -23,7 +26,7 @@ public class DaoBasedTransactionService implements TransactionService {
     }
 
     @Override
-    public void save(UnidentifiableTransactions unidentifiableTransactions) {
+    public Transactions save(UnidentifiableTransactions unidentifiableTransactions) {
         final Range<LocalDate> dateRange = unidentifiableTransactions.getDateRange();
         final Transactions existingTransactions = find(dateRange.lowerEndpoint(), dateRange.upperEndpoint());
         final UnidentifiableTransactions existingUnidentifiableTransactions = existingTransactions
@@ -31,6 +34,12 @@ public class DaoBasedTransactionService implements TransactionService {
         final Sets.SetView<UnidentifiableTransaction> newTransactions = Sets
                 .difference(unidentifiableTransactions.asSet(), existingUnidentifiableTransactions.asSet());
 
-        newTransactions.forEach(transactionDao::insert);
+        return Transactions.ofIterable(newTransactions.stream().map(transactionDao::insert)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Transactions uploadCsv(File file, boolean includeHeaders) throws IOException {
+        return save(UnidentifiableTransactions.fromFile(file, includeHeaders));
     }
 }

@@ -1,5 +1,7 @@
 package com.wingmar.taffybear.budget.tx;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 public interface TransactionService {
@@ -7,5 +9,7 @@ public interface TransactionService {
 
     Transactions find(LocalDate lower, LocalDate upper);
 
-    void save(UnidentifiableTransactions transactions);
+    Transactions save(UnidentifiableTransactions transactions);
+
+    Transactions uploadCsv(File file, boolean includeHeaders) throws IOException;
 }
