@@ -5,6 +5,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = BudgetApplicationContext.class)
@@ -46,6 +48,43 @@ public class TransactionDaoMyBatisTest {
 
         // then
         assertThat(transaction.getId(), not(nullValue()));
+    }
+
+    @Test
+    public void insert_returnsTransaction() throws Exception {
+        // given
+        final UnidentifiableTransaction unidentifiableTransaction = generator.randomUnidentifiableTransaction();
+
+        // when
+        final Transaction transaction = transactionDao.insert(unidentifiableTransaction);
+
+        // then
+        assertThat(transaction, is(Transaction.create(transaction.getId(), unidentifiableTransaction)));
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void logUpload_referentialIntegrity() {
+        // given
+
+        // when
+        transactionDao.logUpload(UUID.randomUUID(), "filename");
+
+        // then
+    }
+
+    @Test
+    public void logUpload() {
+        // given
+        final Transaction insert = transactionDao.insert(generator.randomUnidentifiableTransaction());
+
+        // when
+        final boolean logged = transactionDao.logUpload(insert.getId(), "filename");
+
+        // then
+        final String filename = jdbcTemplate.queryForObject("SELECT filename FROM transaction_upload " +
+                "WHERE transaction_id = " + "'" + insert.getId() + "'", String.class);
+        assertTrue(logged);
+        assertThat(filename, is("filename"));
     }
 
     @Test

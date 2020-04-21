@@ -23,6 +23,11 @@
         VALUES (#{id}, #{merchant}, #{date}, #{amount}, #{category}, #{type});
     </insert>
 
+    <insert id="logUpload" parameterType="java.util.Map">
+        INSERT INTO transaction_upload (transaction_id, filename)
+        VALUES (#{transactionId}, #{filename})
+    </insert>
+
     <select id="all" resultMap="map">
         SELECT * FROM transaction
     </select>

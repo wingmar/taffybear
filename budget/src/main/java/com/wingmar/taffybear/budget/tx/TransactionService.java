@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
-interface TransactionService {
+public interface TransactionService {
     Transactions all();
 
     Transactions find(LocalDate lower, LocalDate upper);

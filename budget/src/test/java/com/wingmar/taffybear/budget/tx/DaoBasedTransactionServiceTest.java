@@ -207,4 +207,44 @@ public class DaoBasedTransactionServiceTest {
         // then
         assertThat(transactions, is(expected));
     }
+
+    @Test
+    public void uploadCsv_logsUploads() throws URISyntaxException, IOException {
+        // given
+        final File file = new File(getClass().getResource("transactions.csv").toURI());
+
+        final TransactionService spy = Mockito.spy(transactionService);
+
+        final UnidentifiableTransaction firstEnergy = UnidentifiableTransaction.createUsdTransaction(
+                Merchant.named("FIRSTENERGY/EZPAYRECUR"),
+                LocalDate.parse("2020-03-30"),
+                BigDecimal.valueOf(-66.28),
+                Category.named("Bills & Utilities"),
+                TransactionType.SALE
+        );
+        final UnidentifiableTransaction chewy = UnidentifiableTransaction.createUsdTransaction(
+                Merchant.named("CHEWY.COM"),
+                LocalDate.parse("2020-03-30"),
+                BigDecimal.valueOf(35.28),
+                Category.named("Shopping"),
+                TransactionType.RETURN
+        );
+        final UnidentifiableTransaction oil = UnidentifiableTransaction.createUsdTransaction(
+                Merchant.named("VONEIFF OIL"),
+                LocalDate.parse("2020-03-23"),
+                BigDecimal.valueOf(-344.85),
+                Category.named("Home"),
+                TransactionType.SALE
+        );
+        final Transactions expected = Transactions.of(generator.randomTransaction());
+        Mockito.doReturn(expected).when(spy)
+                .save(UnidentifiableTransactions.of(Arrays.asList(firstEnergy, chewy, oil)));
+
+        // when
+        final Transactions transactions = spy.uploadCsv(file, true);
+
+        // then
+        transactions.forEach(transaction -> Mockito
+                .verify(transactionDao).logUpload(transaction.getId(), "transactions.csv"));
+    }
 }

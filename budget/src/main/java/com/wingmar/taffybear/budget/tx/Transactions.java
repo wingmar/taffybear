@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Transactions {
@@ -38,8 +39,12 @@ public class Transactions {
         return new Transactions();
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return toUnidentifiableTransactions().isEmpty();
+    }
+
+    public void forEach(Consumer<Transaction> consumer) {
+        transactions.forEach(consumer);
     }
 
     Range<LocalDate> getDateRange() {

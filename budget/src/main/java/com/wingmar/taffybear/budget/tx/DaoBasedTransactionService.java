@@ -40,6 +40,8 @@ public class DaoBasedTransactionService implements TransactionService {
 
     @Override
     public Transactions uploadCsv(File file, boolean includeHeaders) throws IOException {
-        return save(UnidentifiableTransactions.fromFile(file, includeHeaders));
+        final Transactions transactions = save(UnidentifiableTransactions.fromFile(file, includeHeaders));
+        transactions.forEach(transaction -> transactionDao.logUpload(transaction.getId(), file.getName()));
+        return transactions;
     }
 }

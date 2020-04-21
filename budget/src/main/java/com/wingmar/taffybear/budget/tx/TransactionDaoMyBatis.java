@@ -18,6 +18,12 @@ public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements Trans
     }
 
     @Override
+    public boolean logUpload(UUID transactionId, String filename) {
+        return getSqlSession().insert("transaction.logUpload", ImmutableMap
+                .of("transactionId", transactionId, "filename", filename)) == 1;
+    }
+
+    @Override
     public List<Transaction> all() {
         return getSqlSession().selectList("transaction.all");
     }

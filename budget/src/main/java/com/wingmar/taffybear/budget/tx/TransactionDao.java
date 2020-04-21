@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface TransactionDao {
     Transaction insert(UnidentifiableTransaction unidentifiableTransaction);
 
+    boolean logUpload(UUID transactionId, String filename);
+
     List<Transaction> all();
 
     Optional<Transaction> find(UUID id);
