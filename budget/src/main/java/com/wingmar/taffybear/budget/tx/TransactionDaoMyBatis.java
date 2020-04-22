@@ -2,6 +2,7 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.collect.ImmutableMap;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.dao.DataIntegrityViolationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,12 @@ public class TransactionDaoMyBatis extends SqlSessionDaoSupport implements Trans
 
     @Override
     public boolean logUpload(UUID transactionId, String filename) {
-        return getSqlSession().insert("transaction.logUpload", ImmutableMap
-                .of("transactionId", transactionId, "filename", filename)) == 1;
+        try {
+            return getSqlSession().insert("transaction.logUpload", ImmutableMap
+                    .of("transactionId", transactionId, "filename", filename)) == 1;
+        } catch (DataIntegrityViolationException e) {
+            return false;
+        }
     }
 
     @Override
