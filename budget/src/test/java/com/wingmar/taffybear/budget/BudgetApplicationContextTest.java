@@ -1,6 +1,7 @@
 package com.wingmar.taffybear.budget;
 
 import com.wingmar.taffybear.budget.tx.TransactionDao;
+import com.wingmar.taffybear.budget.tx.TransactionService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,8 @@ public class BudgetApplicationContextTest {
     private TransactionManager transactionManager;
     @Autowired
     private TransactionDao transactionDao;
+    @Autowired
+    private TransactionService transactionService;
 
     @Test
     public void dataSource() throws Exception {
@@ -55,5 +58,10 @@ public class BudgetApplicationContextTest {
     @Test
     public void transactionDao() throws Exception {
         assertThat(transactionDao, not(nullValue()));
+    }
+
+    @Test
+    public void transactionService() {
+        assertThat(transactionService, not(nullValue()));
     }
 }

@@ -2,6 +2,7 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
+import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ public class DaoBasedTransactionService implements TransactionService {
 
     private final TransactionDao transactionDao;
 
-    DaoBasedTransactionService(TransactionDao transactionDao) {
+    public DaoBasedTransactionService(TransactionDao transactionDao) {
         this.transactionDao = transactionDao;
     }
 
@@ -39,6 +40,7 @@ public class DaoBasedTransactionService implements TransactionService {
     }
 
     @Override
+    @Transactional
     public Transactions uploadCsv(File file, boolean includeHeaders) throws IOException {
         final Transactions transactions = save(UnidentifiableTransactions.fromFile(file, includeHeaders));
         transactions.forEach(transaction -> transactionDao.logUpload(transaction.getId(), file.getName()));

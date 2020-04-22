@@ -47,7 +47,7 @@ public class UnidentifiableTransactions {
         return readTransactions(new InputStreamReader(inputStream), includeHeaders);
     }
 
-    static UnidentifiableTransactions fromFile(File file, boolean includeHeaders) throws IOException {
+    public static UnidentifiableTransactions fromFile(File file, boolean includeHeaders) throws IOException {
         return readTransactions(new FileReader(file), includeHeaders);
     }
 
@@ -115,11 +115,15 @@ public class UnidentifiableTransactions {
         return ImmutableSet.copyOf(unidentifiableTransactions);
     }
 
+    public int size() {
+        return unidentifiableTransactions.size();
+    }
+
     boolean isEmpty() {
         return unidentifiableTransactions.isEmpty();
     }
 
-    Range<LocalDate> getDateRange() {
+    public Range<LocalDate> getDateRange() {
         if (isEmpty()) {
             return Range.openClosed(LocalDate.MIN, LocalDate.MIN);
         }

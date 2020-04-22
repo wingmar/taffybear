@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum TransactionType {
     SALE ("Sale"),
     RETURN ("Return"),
-    PAYMENT ("Payment");
+    PAYMENT("Payment"),
+    ADJUSTMENT("Adjustment");
 
     private final String name;
 

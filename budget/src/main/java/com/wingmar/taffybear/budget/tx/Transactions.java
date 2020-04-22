@@ -39,6 +39,10 @@ public class Transactions {
         return new Transactions();
     }
 
+    public int size() {
+        return transactions.size();
+    }
+
     public boolean isEmpty() {
         return toUnidentifiableTransactions().isEmpty();
     }
@@ -47,7 +51,7 @@ public class Transactions {
         transactions.forEach(consumer);
     }
 
-    Range<LocalDate> getDateRange() {
+    public Range<LocalDate> getDateRange() {
         return toUnidentifiableTransactions().getDateRange();
     }
 
