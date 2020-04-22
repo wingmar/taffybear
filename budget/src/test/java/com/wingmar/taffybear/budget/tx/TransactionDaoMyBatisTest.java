@@ -2,6 +2,7 @@ package com.wingmar.taffybear.budget.tx;
 
 import com.wingmar.taffybear.budget.BudgetApplicationContext;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class TransactionDaoMyBatisTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Before
+    public void before() {
+        jdbcTemplate.update("DELETE FROM transaction_upload");
+        jdbcTemplate.update("DELETE FROM transaction");
+    }
 
     @Test
     public void insert_populatesId() throws Exception {
