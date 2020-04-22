@@ -1,8 +1,10 @@
 package com.wingmar.taffybear.budget;
 
 import com.mysql.jdbc.Driver;
+import com.wingmar.taffybear.budget.tx.DaoBasedTransactionService;
 import com.wingmar.taffybear.budget.tx.TransactionDao;
 import com.wingmar.taffybear.budget.tx.TransactionDaoMyBatis;
+import com.wingmar.taffybear.budget.tx.TransactionService;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -52,5 +54,10 @@ public class BudgetApplicationContext {
         final TransactionDaoMyBatis dao = new TransactionDaoMyBatis();
         dao.setSqlSessionFactory(sqlSessionFactory);
         return dao;
+    }
+
+    @Bean
+    public TransactionService transactionService(@Autowired TransactionDao transactionDao) {
+        return new DaoBasedTransactionService(transactionDao);
     }
 }
