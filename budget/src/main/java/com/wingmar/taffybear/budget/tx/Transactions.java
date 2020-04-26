@@ -39,19 +39,19 @@ public class Transactions {
         return new Transactions();
     }
 
-    public int size() {
+    int size() {
         return transactions.size();
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return toUnidentifiableTransactions().isEmpty();
     }
 
-    public void forEach(Consumer<Transaction> consumer) {
+    void forEach(Consumer<Transaction> consumer) {
         transactions.forEach(consumer);
     }
 
-    public Range<LocalDate> getDateRange() {
+    Range<LocalDate> getDateRange() {
         return toUnidentifiableTransactions().getDateRange();
     }
 
