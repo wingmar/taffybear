@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-abstract class Transaction {
+class Transaction {
     private final UUID id;
     private final LocalDate date;
     private final BigDecimal amount;
