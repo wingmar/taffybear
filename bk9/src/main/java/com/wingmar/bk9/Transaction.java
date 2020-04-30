@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 class Transaction {
@@ -37,12 +38,12 @@ class Transaction {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) {
+        final Optional<Transaction> otherOptional = EqualsHelper.of(this).cast(obj);
+        if (!otherOptional.isPresent()) {
             return false;
         }
-
-        final Transaction o = (Transaction) obj;
-        return EqualsHelper.elementPairsAreEqual(id, o.id, date, o.date, amount, o.amount, note, o.note);
+        final Transaction other = otherOptional.get();
+        return EqualsHelper.elementPairsAreEqual(id, other.id, date, other.date, amount, other.amount, note, other.note);
     }
 
     @Override

@@ -2,11 +2,28 @@ package com.wingmar.bk9;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
+import java.util.Optional;
 
-class EqualsHelper {
+class EqualsHelper<T> {
 
-    private EqualsHelper() {
-        // static access only
+    private final T thisOne;
+
+    private EqualsHelper(T thisOne) {
+        Preconditions.checkNotNull(thisOne);
+        this.thisOne = thisOne;
+    }
+
+    static <T> EqualsHelper<T> of(T thisOne) {
+        return new EqualsHelper<>(thisOne);
+    }
+
+    @SuppressWarnings("unchecked")
+    Optional<T> cast(Object otherOne) {
+        if (otherOne == null || thisOne.getClass() != otherOne.getClass()) {
+            return Optional.empty();
+        }
+
+        return Optional.of((T) otherOne);
     }
 
     static boolean elementPairsAreEqual(Object... objects) {
