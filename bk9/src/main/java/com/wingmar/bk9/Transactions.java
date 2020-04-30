@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,13 +86,6 @@ public class Transactions {
         return transactions;
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .addValue(transactions)
-                .toString();
-    }
-
     private enum Header {
         DATE("Date"),
         PAYMENT_TYPE("Payment Type"),
@@ -109,5 +103,27 @@ public class Transactions {
         String getName() {
             return name;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !getClass().equals(obj.getClass())) {
+            return false;
+        }
+
+        final Transactions o = (Transactions) obj;
+        return EqualsHelper.elementPairsAreEqual(transactions, o.transactions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactions);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .addValue(transactions)
+                .toString();
     }
 }

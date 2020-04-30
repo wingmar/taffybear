@@ -7,11 +7,53 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class TransactionsTest {
+
+    @Test
+    public void equals() {
+        final UUID id = UUID.randomUUID();
+        final Transactions transactions = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+        final Transactions other = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+
+        assertThat(transactions, is(other));
+    }
+
+    @Test
+    public void equals_null() {
+        final UUID id = UUID.randomUUID();
+        final Transactions transactions = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+
+        assertFalse(transactions.equals(null));
+    }
+
+    @Test
+    public void equals_diffObj() {
+        final UUID id = UUID.randomUUID();
+        final Transactions transactions = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+
+        assertFalse(transactions.equals(new Object()));
+    }
+
+    @Test
+    public void hash() {
+        final UUID id = UUID.randomUUID();
+        final Transactions transactions = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+        final Transactions other = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+
+        assertThat(transactions.hashCode(), is(other.hashCode()));
+    }
 
     @Test
     public void fromFile() throws URISyntaxException, IOException {
@@ -50,5 +92,16 @@ public class TransactionsTest {
 
     private LocalDate parseDate(String dateStr) {
         return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("M/d/yyyy"));
+    }
+
+    @Test
+    public void testToString() {
+        final UUID id = UUID.randomUUID();
+        final Transactions transactions = Transactions
+                .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
+
+        final String actual = transactions.toString();
+
+        assertThat(actual, is("Transactions{[Income{" + id + ", 1923-03-05, 132, note, true}]}"));
     }
 }
