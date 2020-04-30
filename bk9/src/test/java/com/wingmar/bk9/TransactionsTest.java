@@ -83,7 +83,7 @@ public class TransactionsTest {
                 Withdrawal.unidentified(parseDate("1/28/2020"), amountOf("2500.00"), "Owner's Draw")
         );
 
-        assertThat(transactions.asSet(), is(expected.asSet()));
+        assertThat(transactions, is(expected));
     }
 
     private BigDecimal amountOf(String val) {

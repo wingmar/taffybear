@@ -82,10 +82,6 @@ public class Transactions {
         return new BigDecimal(moneyStr.replace("$", "").replace(",", "").trim());
     }
 
-    Set<Transaction> asSet() {
-        return transactions;
-    }
-
     private enum Header {
         DATE("Date"),
         PAYMENT_TYPE("Payment Type"),
