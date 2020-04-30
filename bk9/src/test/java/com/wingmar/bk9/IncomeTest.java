@@ -13,11 +13,21 @@ import static org.junit.Assert.assertThat;
 public class IncomeTest {
 
     @Test
+    public void unidentified() {
+        final Income transaction = Income.unidentified(LocalDate.parse("2019-10-26"),
+                BigDecimal.valueOf(5.4), "note", true);
+        final Income other = Income.create(null, LocalDate.parse("2019-10-26"),
+                BigDecimal.valueOf(5.4), "note", true);
+
+        assertThat(transaction, is(other));
+    }
+
+    @Test
     public void equals() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction, is(other));
@@ -26,7 +36,7 @@ public class IncomeTest {
     @Test
     public void equals_null_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertFalse(transaction.equals(null));
@@ -35,7 +45,7 @@ public class IncomeTest {
     @Test
     public void equals_diffType_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
         final TransactionImpl other = new TransactionImpl(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note");
@@ -45,9 +55,9 @@ public class IncomeTest {
 
     @Test
     public void equals_diffId_notEqual() {
-        final Income transaction = new Income(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction, is(not(other)));
@@ -56,9 +66,9 @@ public class IncomeTest {
     @Test
     public void equals_diffDate_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-27"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-27"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction, is(not(other)));
@@ -67,9 +77,9 @@ public class IncomeTest {
     @Test
     public void equals_diffAmount_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.5), "note", true);
 
         assertThat(transaction, is(not(other)));
@@ -78,9 +88,9 @@ public class IncomeTest {
     @Test
     public void equals_diffNote_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "other note", true);
 
         assertThat(transaction, is(not(other)));
@@ -89,9 +99,9 @@ public class IncomeTest {
     @Test
     public void equals_diffCash_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", false);
 
         assertThat(transaction, is(not(other)));
@@ -100,9 +110,9 @@ public class IncomeTest {
     @Test
     public void hash() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction.hashCode(), is(other.hashCode()));
@@ -110,9 +120,9 @@ public class IncomeTest {
 
     @Test
     public void hash_diffId_notEqual() {
-        final Income transaction = new Income(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(UUID.randomUUID(), LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction.hashCode(), is(not(other.hashCode())));
@@ -121,9 +131,9 @@ public class IncomeTest {
     @Test
     public void hash_diffDate_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-27"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-27"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         assertThat(transaction.hashCode(), is(not(other.hashCode())));
@@ -132,9 +142,9 @@ public class IncomeTest {
     @Test
     public void hash_diffAmount_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.5), "note", true);
 
         assertThat(transaction.hashCode(), is(not(other.hashCode())));
@@ -143,9 +153,9 @@ public class IncomeTest {
     @Test
     public void hash_diffNote_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "other note", true);
 
         assertThat(transaction.hashCode(), is(not(other.hashCode())));
@@ -154,9 +164,9 @@ public class IncomeTest {
     @Test
     public void hash_diffCash_notEqual() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
-        final Income other = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income other = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", false);
 
         assertThat(transaction.hashCode(), is(not(other.hashCode())));
@@ -165,7 +175,7 @@ public class IncomeTest {
     @Test
     public void testToString() {
         final UUID id = UUID.randomUUID();
-        final Income transaction = new Income(id, LocalDate.parse("2019-10-26"),
+        final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
         final String actual = transaction.toString();

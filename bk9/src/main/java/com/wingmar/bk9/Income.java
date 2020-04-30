@@ -10,9 +10,17 @@ class Income extends Transaction {
 
     private final boolean cash;
 
-    Income(UUID id, LocalDate date, BigDecimal amount, String note, boolean cash) {
+    private Income(UUID id, LocalDate date, BigDecimal amount, String note, boolean cash) {
         super(id, date, amount, note);
         this.cash = cash;
+    }
+
+    static Income create(UUID id, LocalDate date, BigDecimal amount, String note, boolean cash) {
+        return new Income(id, date, amount, note, cash);
+    }
+
+    static Income unidentified(LocalDate date, BigDecimal amount, String note, boolean cash) {
+        return new Income(null, date, amount, note, cash);
     }
 
     @Override
