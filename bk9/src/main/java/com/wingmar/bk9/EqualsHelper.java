@@ -4,6 +4,11 @@ import com.google.common.base.Preconditions;
 import java.util.Objects;
 
 class EqualsHelper {
+
+    private EqualsHelper() {
+        // static access only
+    }
+
     static boolean elementPairsAreEqual(Object... objects) {
         Preconditions.checkArgument(objects.length % 2 == 0);
         for (int i = 0; i < objects.length; i += 2) {
