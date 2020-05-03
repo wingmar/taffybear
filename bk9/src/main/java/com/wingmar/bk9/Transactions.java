@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableSet;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -104,12 +104,12 @@ public class Transactions {
 
     @Override
     public boolean equals(Object obj) {
-        final Optional<Transactions> otherOptional = EqualsHelper.of(this).cast(obj);
-        if (!otherOptional.isPresent()) {
+        if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        final Transactions other = otherOptional.get();
-        return EqualsHelper.elementPairsAreEqual(transactions, other.transactions);
+
+        final Transactions other = (Transactions) obj;
+        return EqualsHelper.newInstance().elementPairsAreEqual(transactions, other.transactions);
     }
 
     @Override

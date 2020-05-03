@@ -9,11 +9,11 @@ public class EqualsHelperTest {
 
     @Test
     public void elementPairsAreEqual_happy() {
-        assertTrue(EqualsHelper.elementPairsAreEqual(1, 1, "", "", 5L, 5L, "asdf", "asdf"));
+        assertTrue(EqualsHelper.newInstance().elementPairsAreEqual(1, 1, "", "", 5L, 5L, "asdf", "asdf"));
     }
 
     @Test
     public void elementPairsAreEqual_wrongIndexes() {
-        assertFalse(EqualsHelper.elementPairsAreEqual(1, "", 1, ""));
+        assertFalse(EqualsHelper.newInstance().elementPairsAreEqual(1, "", 1, ""));
     }
 }

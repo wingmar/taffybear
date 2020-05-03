@@ -1,10 +1,10 @@
 package com.wingmar.bk9;
 
 import com.google.common.base.MoreObjects;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 class Transaction {
@@ -37,13 +37,14 @@ class Transaction {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        final Optional<Transaction> otherOptional = EqualsHelper.of(this).cast(obj);
-        if (!otherOptional.isPresent()) {
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
-        final Transaction other = otherOptional.get();
-        return EqualsHelper.elementPairsAreEqual(id, other.id, date, other.date, amount, other.amount, note, other.note);
+
+        Transaction other = (Transaction) o;
+        return EqualsHelper.newInstance()
+                .elementPairsAreEqual(id, other.id, date, other.date, amount, other.amount, note, other.note);
     }
 
     @Override
