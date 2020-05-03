@@ -1,13 +1,14 @@
 package com.wingmar.bk9;
 
 import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 public class TransactionTest {
@@ -29,7 +30,7 @@ public class TransactionTest {
         final Transaction transaction = new TransactionImpl(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note");
 
-        assertFalse(transaction.equals(null));
+        assertNotEquals(null, transaction);
     }
 
     @Test
@@ -152,13 +153,13 @@ public class TransactionTest {
                 id, "2019-10-26", 5.4, "note")));
     }
 
-    private class TransactionImpl extends Transaction {
+    private static class TransactionImpl extends Transaction {
         TransactionImpl(UUID id, LocalDate date, BigDecimal amount, String note) {
             super(id, date, amount, note);
         }
     }
 
-    private class AnotherTransactionImpl extends Transaction {
+    private static class AnotherTransactionImpl extends Transaction {
         AnotherTransactionImpl(UUID id, LocalDate date, BigDecimal amount, String note) {
             super(id, date, amount, note);
         }

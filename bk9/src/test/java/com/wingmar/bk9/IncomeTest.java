@@ -1,6 +1,7 @@
 package com.wingmar.bk9;
 
 import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -184,7 +185,7 @@ public class IncomeTest {
                 id, "2019-10-26", 5.4, "note", true)));
     }
 
-    private class TransactionImpl extends Transaction {
+    private static class TransactionImpl extends Transaction {
         TransactionImpl(UUID id, LocalDate date, BigDecimal amount, String note) {
             super(id, date, amount, note);
         }

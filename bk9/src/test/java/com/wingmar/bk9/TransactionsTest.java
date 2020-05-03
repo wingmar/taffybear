@@ -1,6 +1,7 @@
 package com.wingmar.bk9;
 
 import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 public class TransactionsTest {
@@ -32,7 +33,7 @@ public class TransactionsTest {
         final Transactions transactions = Transactions
                 .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
 
-        assertFalse(transactions.equals(null));
+        assertNotEquals(null, transactions);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class TransactionsTest {
         final Transactions transactions = Transactions
                 .of(Income.create(id, LocalDate.parse("1923-03-05"), BigDecimal.valueOf(132), "note", true));
 
-        assertFalse(transactions.equals(new Object()));
+        assertNotEquals(transactions, new Object());
     }
 
     @Test
