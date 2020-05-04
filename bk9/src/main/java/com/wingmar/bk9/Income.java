@@ -1,6 +1,7 @@
 package com.wingmar.bk9;
 
 import com.google.common.base.MoreObjects;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,6 +22,10 @@ class Income extends Transaction {
 
     static Income unidentified(LocalDate date, BigDecimal amount, String note, boolean cash) {
         return new Income(null, date, amount, note, cash);
+    }
+
+    public boolean isCash() {
+        return cash;
     }
 
     @Override
