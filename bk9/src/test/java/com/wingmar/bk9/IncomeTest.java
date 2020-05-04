@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 public class IncomeTest {
@@ -40,7 +40,7 @@ public class IncomeTest {
         final Income transaction = Income.create(id, LocalDate.parse("2019-10-26"),
                 BigDecimal.valueOf(5.4), "note", true);
 
-        assertFalse(transaction.equals(null));
+        assertNotEquals(null, transaction);
     }
 
     @Test
@@ -189,5 +189,19 @@ public class IncomeTest {
         TransactionImpl(UUID id, LocalDate date, BigDecimal amount, String note) {
             super(id, date, amount, note);
         }
+    }
+
+    @Test
+    public void identify() {
+        // given
+        final Income income = Income.unidentified(LocalDate.now(), BigDecimal.ONE, "note", true);
+
+        // when
+        final UUID id = UUID.randomUUID();
+        final Income actual = income.identify(id);
+
+        // then
+        assertThat(actual, is(Income.create(id, income.getDate(), income.getAmount(), income.getNote(),
+                income.isCash())));
     }
 }

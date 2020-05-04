@@ -164,4 +164,32 @@ public class TransactionTest {
             super(id, date, amount, note);
         }
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void identify_alreadyHadIdThrowsIllegalStateException() {
+        // given
+        final TransactionImpl transaction = new TransactionImpl(UUID.randomUUID(), LocalDate.now(), BigDecimal.ONE,
+                "note");
+
+        // when
+        transaction.identify(UUID.randomUUID());
+
+        // then -> exception
+    }
+
+    @Test
+    public void identify() {
+        // given
+        final TransactionImpl transaction = new TransactionImpl(null, LocalDate.now(), BigDecimal.ONE, "note");
+
+        // when
+        final UUID id = UUID.randomUUID();
+        final Transaction actual = transaction.identify(id);
+
+        // then
+        assertThat(actual.getId(), is(id));
+        assertThat(actual.getDate(), is(transaction.getDate()));
+        assertThat(actual.getAmount(), is(transaction.getAmount()));
+        assertThat(actual.getNote(), is(transaction.getNote()));
+    }
 }

@@ -1,6 +1,7 @@
 package com.wingmar.bk9;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,8 +21,13 @@ class Transaction {
         this.note = note;
     }
 
-    UUID getId() {
+    public UUID getId() {
         return id;
+    }
+
+    protected Transaction identify(UUID id) {
+        Preconditions.checkState(getId() == null);
+        return new Transaction(id, getDate(), getAmount(), getNote());
     }
 
     LocalDate getDate() {

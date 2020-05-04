@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-class Income extends Transaction {
+class Income extends Transaction implements Identifiable<Income> {
 
     private final boolean cash;
 
@@ -52,5 +52,12 @@ class Income extends Transaction {
                 .addValue(getNote())
                 .addValue(cash)
                 .toString();
+    }
+
+    @Override
+    public Income identify(UUID id) {
+        final Transaction transaction = super.identify(id);
+        return create(transaction.getId(), transaction.getDate(), transaction.getAmount(),
+                transaction.getNote(), isCash());
     }
 }

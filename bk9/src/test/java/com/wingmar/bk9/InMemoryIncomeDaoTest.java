@@ -36,7 +36,7 @@ public class InMemoryIncomeDaoTest {
         final UUID id = dao.insert(income);
 
         // then
-        assertThat(dao.getMap(), is(ImmutableMap
+        assertThat(dao.getState(), is(ImmutableMap
                 .of(id, Income.create(id, now, BigDecimal.ONE, "note", true))));
     }
 
