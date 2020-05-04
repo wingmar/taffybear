@@ -1,6 +1,7 @@
 package com.wingmar.bk9;
 
 import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -25,5 +26,18 @@ public class ExpenseTest {
         final Expense other = Expense.create(null, LocalDate.parse("2020-02-01"), BigDecimal.valueOf(1234), "note");
 
         assertThat(expense, is(other));
+    }
+
+    @Test
+    public void identify() {
+        // given
+        final Expense expense = Expense.unidentified(LocalDate.now(), BigDecimal.ONE, "note");
+
+        // when
+        final UUID id = UUID.randomUUID();
+        final Expense identify = expense.identify(id);
+
+        // then
+        assertThat(identify, is(Expense.create(id, expense.getDate(), expense.getAmount(), expense.getNote())));
     }
 }
